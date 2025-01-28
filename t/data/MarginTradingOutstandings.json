@@ -1,0 +1,15 @@
+{
+    "weekly_margin_interest": [
+        {
+            "Date": "2023-02-17",
+            "Code": "13010",
+            "ShortMarginTradeVolume": 4100.0,
+            "LongMarginTradeVolume": 27600.0,
+            "ShortNegotiableMarginTradeVolume": 1300.0,
+            "LongNegotiableMarginTradeVolume": 7600.0,
+            "ShortStandardizedMarginTradeVolume": 2800.0,
+            "LongStandardizedMarginTradeVolume": 20000.0,
+            "IssueType": "2"
+        }
+    ]
+ }

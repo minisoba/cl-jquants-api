@@ -1,0 +1,11 @@
+{
+    "short_selling": [
+        {
+            "Date": "2022-10-25",
+            "Sector33Code": "0050",
+            "SellingExcludingShortSellingTurnoverValue": 1333126400.0,
+            "ShortSellingWithRestrictionsTurnoverValue": 787355200.0,
+            "ShortSellingWithoutRestrictionsTurnoverValue": 149084300.0
+        }
+    ]
+ }

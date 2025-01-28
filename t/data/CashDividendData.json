@@ -1,0 +1,29 @@
+{
+    "dividend": [
+        {
+            "AnnouncementDate": "2014-02-24",
+            "AnnouncementTime": "09:21",
+            "Code": "15550",
+            "ReferenceNumber": "201402241B00002",
+            "StatusCode": "1",
+            "BoardMeetingDate": "2014-02-24",
+            "InterimFinalCode": "2",
+            "ForecastResultCode": "2",
+            "InterimFinalTerm": "2014-03",
+            "GrossDividendRate": "-",
+            "RecordDate": "2014-03-10",
+            "ExDate": "2014-03-06",
+            "ActualRecordDate": "2014-03-10",
+            "PayableDate": "-",
+            "CAReferenceNumber": "201402241B00002",
+            "DistributionAmount": "",
+            "RetainedEarnings": "",
+            "DeemedDividend": "",
+            "DeemedCapitalGains": "",
+            "NetAssetDecreaseRatio": "",
+            "CommemorativeSpecialCode": "0",
+            "CommemorativeDividendRate": "",
+            "SpecialDividendRate": ""
+        }
+    ]
+}

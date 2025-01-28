@@ -1,0 +1,14 @@
+{
+    "prices_am": [
+        {
+            "Date": "2023-03-20",
+            "Code": "39400",
+            "MorningOpen": 232.0,
+            "MorningHigh": 244.0,
+            "MorningLow": 232.0,
+            "MorningClose": 240.0,
+            "MorningVolume": 52600.0,
+            "MorningTurnoverValue": 12518800.0
+        }
+    ]
+}

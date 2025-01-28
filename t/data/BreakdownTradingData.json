@@ -1,0 +1,22 @@
+{
+    "breakdown": [
+        {
+            "Date": "2015-04-01", 
+            "Code": "13010", 
+            "LongSellValue": 115164000.0,
+            "ShortSellWithoutMarginValue": 93561000.0, 
+            "MarginSellNewValue": 6412000.0, 
+            "MarginSellCloseValue": 23009000.0, 
+            "LongBuyValue": 185114000.0, 
+            "MarginBuyNewValue": 35568000.0, 
+            "MarginBuyCloseValue": 17464000.0, 
+            "LongSellVolume": 415000.0, 
+            "ShortSellWithoutMarginVolume": 337000.0, 
+            "MarginSellNewVolume": 23000.0, 
+            "MarginSellCloseVolume": 83000.0, 
+            "LongBuyVolume": 667000.0, 
+            "MarginBuyNewVolume": 128000.0, 
+            "MarginBuyCloseVolume": 63000.0
+        }
+    ]
+ }

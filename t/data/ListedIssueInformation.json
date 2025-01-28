@@ -1,0 +1,19 @@
+{
+    "info": [
+        {
+            "Date": "2022-11-11",
+            "Code": "86970",
+            "CompanyName": "日本取引所グループ",
+            "CompanyNameEnglish": "Japan Exchange Group,Inc.",
+            "Sector17Code": "16",
+            "Sector17CodeName": "金融（除く銀行）",
+            "Sector33Code": "7200",
+            "Sector33CodeName": "その他金融業",
+            "ScaleCategory": "TOPIX Large70",
+            "MarketCode": "0111",
+            "MarketCodeName": "プライム",
+            "MarginCode": "1",
+            "MarginCodeName": "信用",
+        }
+    ]
+}

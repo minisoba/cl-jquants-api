@@ -1,0 +1,10 @@
+(in-package :cl-jquants-api)
+
+(defclass earnings-calendar (jquants-object)
+  ((code :accessor code-of :initform nil)
+   (date :accessor date-of :initform 0)
+   (company-name :accessor company-name-of :initform nil)
+   (fiscal-year :accessor fiscal-year-of :initform nil)
+   (sector-name :accessor sector-name-of :initform nil)
+   (fiscal-quarter :accessor fiscal-quarter-of :initform nil)
+   (section :accessor section-of :initform nil)))

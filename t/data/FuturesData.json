@@ -1,0 +1,35 @@
+{
+    "futures": [
+        {
+             "Code": "169090005",
+             "DerivativesProductCategory": "TOPIXF",
+             "Date": "2024-07-23", 
+             "WholeDayOpen": 2825.5, 
+             "WholeDayHigh": 2853.0, 
+             "WholeDayLow": 2825.5, 
+             "WholeDayClose": 2829.0, 
+             "MorningSessionOpen": "", 
+             "MorningSessionHigh": "", 
+             "MorningSessionLow": "", 
+             "MorningSessionClose": "", 
+             "NightSessionOpen": 2825.5, 
+             "NightSessionHigh": 2850.0, 
+             "NightSessionLow": 2825.5, 
+             "NightSessionClose": 2845.0, 
+             "DaySessionOpen": 2850.5, 
+             "DaySessionHigh": 2853.0, 
+             "DaySessionLow": 2826.0, 
+             "DaySessionClose": 2829.0, 
+             "Volume": 42910.0, 
+             "OpenInterest": 479812.0, 
+             "TurnoverValue": 1217918971856.0, 
+             "ContractMonth": "2024-09", 
+             "Volume(OnlyAuction)": 40405.0, 
+             "EmergencyMarginTriggerDivision": "002", 
+             "LastTradingDay": "2024-09-12", 
+             "SpecialQuotationDay": "2024-09-13", 
+             "SettlementPrice": 2829.0, 
+             "CentralContractMonthFlag": "1"
+        }
+    ]
+}
