@@ -8,8 +8,10 @@
                  :cl-change-case
                  :closer-mop
                  :drakma
+                 :fiveam
                  :local-time
                  :parse-number
+                 :uiop
                  :yason)
     :components ((:file "src/package")
                  (:file "src/condition")

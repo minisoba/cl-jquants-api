@@ -5,11 +5,11 @@
     :serial t
     :depends-on (:cl-jquants-api
                  :alexandria
-                 :cl-csv
                  :cl-ppcre
                  :fiveam
                  :local-time
                  :parse-number
+                 :uiop
                  :yason)
     :components ((:file "t/package")
                  (:file "t/override")
