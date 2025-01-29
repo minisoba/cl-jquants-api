@@ -12,6 +12,10 @@
    #:+index-code-name+
    #:+margin-code+
    #:+holiday-division+
+   #:+cash-dividend-status-code+
+   #:+cash-dividend-interim-final-code+
+   #:+cash-dividend-forecast-result-code+
+   #:+cash-dividend-commemorative-special-code+
 
    #:auth-user
    #:auth-refresh
