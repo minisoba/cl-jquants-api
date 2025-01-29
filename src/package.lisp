@@ -16,6 +16,8 @@
    #:+cash-dividend-interim-final-code+
    #:+cash-dividend-forecast-result-code+
    #:+cash-dividend-commemorative-special-code+
+   #:jquants-error
+   #:http-request-error
 
    #:auth-user
    #:auth-refresh
