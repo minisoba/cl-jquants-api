@@ -3,27 +3,25 @@
 (defvar *locale* :en
   "")
 
-(defparameter +end-point-base+ "https://api.jquants.com/v1")
+(defparameter +end-point-base+ "https://api.jquants.com/v2")
 
-(defparameter +token/auth-user+                "token/auth_user")
-(defparameter +token/auth-refresh+             "token/auth_refresh")
-(defparameter +listed/info+                    "listed/info")
-(defparameter +prices/daily-quotes+            "prices/daily_quotes")
-(defparameter +prices/prices-am+               "prices/prices_am")
-(defparameter +markets/trades_spec+            "markets/trades_spec")
-(defparameter +markets/weekly-margin-interest+ "markets/weekly_margin_interest")
-(defparameter +markets/short-selling+          "markets/short_selling")
-(defparameter +markets/breakdown+              "markets/breakdown")
-(defparameter +markets/trading-calendar+       "markets/trading_calendar")
-(defparameter +indices+                        "indices")
-(defparameter +indices/topix+                  "indices/topix")
-(defparameter +fins/statements+                "fins/statements")
-(defparameter +fins/fs-details+                "fins/fs_details")
-(defparameter +fins/dividend+                  "fins/dividend")
-(defparameter +fins/announcement+              "fins/announcement")
-(defparameter +option/index-option+            "option/index_option")
-(defparameter +derivatives/futures+            "derivatives/futures")
-(defparameter +derivatives/options+            "derivatives/options")
+(defparameter +equities/master+                     "equities/master")
+(defparameter +equities/bars/daily+                  "equities/bars/daily")
+(defparameter +equities/bars/daily/am+               "equities/bars/daily/am")
+(defparameter +equities/investor-types+              "equities/investor-types")
+(defparameter +equities/earnings-calendar+           "equities/earnings-calendar")
+(defparameter +markets/margin-interest+              "markets/margin-interest")
+(defparameter +markets/short-ratio+                  "markets/short-ratio")
+(defparameter +markets/breakdown+                    "markets/breakdown")
+(defparameter +markets/calendar+                     "markets/calendar")
+(defparameter +indices/bars/daily+                   "indices/bars/daily")
+(defparameter +indices/bars/daily/topix+             "indices/bars/daily/topix")
+(defparameter +fins/summary+                         "fins/summary")
+(defparameter +fins/details+                         "fins/details")
+(defparameter +fins/dividend+                        "fins/dividend")
+(defparameter +derivatives/bars/daily/options/225+   "derivatives/bars/daily/options/225")
+(defparameter +derivatives/bars/daily/futures+       "derivatives/bars/daily/futures")
+(defparameter +derivatives/bars/daily/options+       "derivatives/bars/daily/options")
 
 (defparameter +market-segment-code-and-name+
   '((:0101 . "1st Section")
@@ -37,7 +35,7 @@
     (:0112 . "Standard")
     (:0113 . "Growth"))
   "
- https://jpx.gitbook.io/j-quants-en/api-reference/listed_info/marketcode")
+ https://jpx-jquants.com/en/api-reference/equities/master")
 
 (defparameter +sector17-code-and-name+
   '((:1  . "FOODS")
@@ -59,7 +57,7 @@
     (:17 . "REAL ESTATE")
     (:99 . "OTHER"))
   "
-https://jpx.gitbook.io/j-quants-en/api-reference/listed_info/sector17code")
+https://jpx-jquants.com/en/api-reference/equities/master")
 
 (defparameter +sector33-code-and-name+
   '((:0050 . "Fishery, Agriculture & Forestry")
@@ -97,7 +95,7 @@ https://jpx.gitbook.io/j-quants-en/api-reference/listed_info/sector17code")
     (:9050 . "Services")
     (:9999 . "Other"))
 "
-https://jpx.gitbook.io/j-quants-en/api-reference/listed_info/sector33code")
+https://jpx-jquants.com/en/api-reference/equities/master")
 
 (defparameter +index-code-name+
   '((:0000 . "TOPIX")
@@ -177,7 +175,7 @@ https://jpx.gitbook.io/j-quants-en/api-reference/listed_info/sector33code")
     (:8502 . "Tokyo Stock Exchange REIT Residential Index")
     (:8503 . "Tokyo Stock Exchange REIT Retail & Logistics, Others Index"))
 "
-https://jpx.gitbook.io/j-quants-en/api-reference/indices/indices-codes")
+https://jpx-jquants.com/en/api-reference/indices/bars/daily")
 
 (defparameter +margin-code+
   '((1 . "Margin issues")
