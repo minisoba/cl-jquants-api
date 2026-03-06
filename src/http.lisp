@@ -44,13 +44,4 @@
                       :text   (gethash "message" hash-table))))))))
 
 (defun perform-http-request (url &key (method :get) content (stream nil))
-  (handler-case
-      (send-request cl-jquants-api::*http-handler* url method :content content :stream (or stream *standard-output*))
-    (http-request-error (err)
-      (when stream
-        (format stream "Caught HTTP error: ~a~%" err))
-      nil)
-    (error (err)
-      (when stream
-        (format stream "Unexpected error during HTTP request: ~a~%" err))
-      nil)))
+  (send-request cl-jquants-api::*http-handler* url method :content content :stream (or stream *standard-output*)))
