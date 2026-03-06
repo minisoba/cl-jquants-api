@@ -1,12 +1,12 @@
 {
-  "announcement": [
+  "data": [
     {
       "Date": "2022-02-14",
       "Code": "43760",
-      "CompanyName": "くふうカンパニー",
-      "FiscalYear": "9月30日",
-      "SectorName": "情報・通信業",
-      "FiscalQuarter": "第１四半期",
+      "CoName": "くふうカンパニー",
+      "FY": "9月30日",
+      "SectorNm": "情報・通信業",
+      "FQ": "第１四半期",
       "Section": "マザーズ"
     }
   ]

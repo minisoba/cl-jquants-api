@@ -1,7 +1,6 @@
 (in-package :cl-jquants-api)
 
-(defvar *api-token* nil)
-(defvar *refresh-token* nil)
+(defvar *api-key* nil)
 
 (define-condition http-request-error (jquants-error)
   ((status :reader status :initarg :status)
@@ -19,7 +18,7 @@
 (defvar *http-handler* (make-instance 'http-handler))
 
 (defun %build-headers ()
-  `(("Authorization" . ,(format nil "Bearer ~a" *api-token*))))
+  `(("x-api-key" . ,*api-key*)))
 
 (defmethod send-request ((obj http-handler) endpoint method
                          &key (content nil) (stream *standard-output*) (timeout 20))
@@ -45,13 +44,4 @@
                       :text   (gethash "message" hash-table))))))))
 
 (defun perform-http-request (url &key (method :get) content (stream nil))
-  (handler-case
-      (send-request cl-jquants-api::*http-handler* url method :content content :stream (or stream *standard-output*))
-    (http-request-error (err)
-      (when stream
-        (format stream "Caught HTTP error: ~a~%" err))
-      nil)
-    (error (err)
-      (when stream
-        (format stream "Unexpected error during HTTP request: ~a~%" err))
-      nil)))
+  (send-request cl-jquants-api::*http-handler* url method :content content :stream (or stream *standard-output*)))
