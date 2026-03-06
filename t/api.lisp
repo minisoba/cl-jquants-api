@@ -632,6 +632,23 @@
     (is (= (interest-rate-of obj) 0.3527d0))
     (is (string= (central-contract-month-flag-of obj) :others))))
 
+(test test-pagination
+  (let* ((handler (make-instance 'pagination-mock-http-handler))
+         (jquants::*http-handler* handler))
+    (let* ((all-data (get-topix-prices :from 20220628))
+           (page1-obj (first all-data))
+           (page2-obj (second all-data)))
+      (is (= (length all-data) 2))
+      (is (= (date-of page1-obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2022-06-28"))))
+      (is (= (open-price-of page1-obj) 1885.52d0))
+      (is (= (date-of page2-obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2022-06-29"))))
+      (is (= (open-price-of page2-obj) 1910.00d0))
+      (is (cl-ppcre:scan "pagination_key=value1\\.value2\\." (last-endpoint handler))))))
+
 (defun run-test ()
   (setf *read-default-float-format* 'double-float)
   (setf jquants::*http-handler* (make-instance 'mock-http-handler))
