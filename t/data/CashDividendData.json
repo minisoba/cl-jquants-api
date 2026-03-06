@@ -1,29 +1,29 @@
 {
-    "dividend": [
+    "data": [
         {
-            "AnnouncementDate": "2014-02-24",
-            "AnnouncementTime": "09:21",
+            "PubDate": "2014-02-24",
+            "PubTime": "09:21",
             "Code": "15550",
-            "ReferenceNumber": "201402241B00002",
-            "StatusCode": "1",
-            "BoardMeetingDate": "2014-02-24",
-            "InterimFinalCode": "2",
-            "ForecastResultCode": "2",
-            "InterimFinalTerm": "2014-03",
-            "GrossDividendRate": "-",
-            "RecordDate": "2014-03-10",
+            "RefNo": "201402241B00002",
+            "StatCode": "1",
+            "BoardDate": "2014-02-24",
+            "IFCode": "2",
+            "FRCode": "2",
+            "IFTerm": "2014-03",
+            "DivRate": "-",
+            "RecDate": "2014-03-10",
             "ExDate": "2014-03-06",
-            "ActualRecordDate": "2014-03-10",
-            "PayableDate": "-",
-            "CAReferenceNumber": "201402241B00002",
-            "DistributionAmount": "",
-            "RetainedEarnings": "",
-            "DeemedDividend": "",
-            "DeemedCapitalGains": "",
-            "NetAssetDecreaseRatio": "",
-            "CommemorativeSpecialCode": "0",
-            "CommemorativeDividendRate": "",
-            "SpecialDividendRate": ""
+            "ActRecDate": "2014-03-10",
+            "PayDate": "-",
+            "CARefNo": "201402241B00002",
+            "DistAmt": "",
+            "RetEarn": "",
+            "DeemDiv": "",
+            "DeemCapGains": "",
+            "NetAssetDecRatio": "",
+            "CommSpecCode": "0",
+            "CommDivRate": "",
+            "SpecDivRate": ""
         }
     ]
 }

@@ -1,12 +1,12 @@
 {
-    "fs_details": [
+    "data": [
         {
-              "DisclosedDate": "2023-01-30",
-              "DisclosedTime": "12:00:00",
-              "LocalCode": "86970",
-              "DisclosureNumber": "20230127594871",
-              "TypeOfDocument": "3QFinancialStatements_Consolidated_IFRS",
-              "FinancialStatement": {
+              "DiscDate": "2023-01-30",
+              "DiscTime": "12:00:00",
+              "Code": "86970",
+              "DiscNo": "20230127594871",
+              "DocType": "3QFinancialStatements_Consolidated_IFRS",
+              "FS": {
                     "Goodwill (IFRS)": "67374000000",
                     "Retained earnings (IFRS)": "263894000000",
                     "Operating profit (loss) (IFRS)": "51765000000.0",
