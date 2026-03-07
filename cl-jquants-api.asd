@@ -8,6 +8,7 @@
                  :cl-change-case
                  :closer-mop
                  :drakma
+                 :duckdb
                  :fiveam
                  :local-time
                  :parse-number
@@ -18,6 +19,7 @@
                  (:file "src/constant")
                  (:file "src/constant-jp")
                  (:file "src/util")
+                 (:file "src/parquet")
                  (:file "src/http")
                  (:file "src/auth")
                  (:file "src/jquants-object")
