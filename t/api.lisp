@@ -630,7 +630,7 @@
       (is (= (strike-price-of obj) 2450.0d0))
       (is (= (volume-only-auction-of obj) 0.0))
       (is (string= (emergency-margin-trigger-division-of obj) "002"))
-      (is (string= (put-call-division-of obj) :call))
+      (is (eql (put-call-division-of obj) :call))
       (is (= (last-trading-day-of obj)
              (local-time:timestamp-to-unix
               (local-time:parse-timestring "2025-01-09"))))
