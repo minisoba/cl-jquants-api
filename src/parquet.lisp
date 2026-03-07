@@ -50,5 +50,7 @@
           (duckdb:query (%make-insert-sql table-name obj) nil :connection conn))
         (duckdb:query "COMMIT" nil :connection conn)
         (duckdb:query
-          (format nil "COPY ~a TO '~a' (FORMAT PARQUET)" table-name parquet-path)
+          (format nil "COPY ~a TO ~a (FORMAT PARQUET)"
+                  table-name
+                  (%sql-escape parquet-path))
           nil :connection conn)))))
