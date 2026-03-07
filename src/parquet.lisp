@@ -41,12 +41,21 @@
 (defun save-to-parquet (objects parquet-path &key (table-name "jquants_data"))
   "Write a list of jquants-objects to a Parquet file via DuckDB."
   (when (null objects) (return-from save-to-parquet nil))
-  (let ((first-obj (first objects)))
+  (let* ((first-obj (first objects))
+         (expected-slot-defs (%slot-definitions first-obj))
+         (expected-type (type-of first-obj)))
     (duckdb:with-open-database (db)
       (duckdb:with-open-connection (conn db)
         (duckdb:query (%make-create-table-sql table-name first-obj) nil :connection conn)
         (duckdb:query "BEGIN" nil :connection conn)
         (dolist (obj objects)
+          (unless (and (eq (type-of obj) expected-type)
+                       (equal expected-slot-defs (%slot-definitions obj)))
+            (error "SAVE-TO-PARQUET expects all objects to have the same type and slot layout. Expected type ~S with slots ~S, but got type ~S with slots ~S."
+                   expected-type
+                   (mapcar #'car expected-slot-defs)
+                   (type-of obj)
+                   (mapcar #'car (%slot-definitions obj))))
           (duckdb:query (%make-insert-sql table-name obj) nil :connection conn))
         (duckdb:query "COMMIT" nil :connection conn)
         (duckdb:query
