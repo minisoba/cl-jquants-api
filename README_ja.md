@@ -2,62 +2,62 @@
 
 # J-Quants API for Common Lisp
 
-**cl-jquants-api** is an open-source library that provides seamless integration of the [J-Quants API](https://jpx-jquants.com/) with Common Lisp.
-This library enables developers to easily access and manipulate financial data provided by the Japan Exchange Group.
+**cl-jquants-api** は、[J-Quants API](https://jpx-jquants.com/) と Common Lisp をシームレスに統合するオープンソースライブラリです。
+このライブラリを使用することで、開発者は日本取引所グループが提供する金融データに簡単にアクセスし、操作することができます。
 
-## Table of Contents
+## 目次
 
 - [J-Quants API for Common Lisp](#j-quants-api-for-common-lisp)
-  - [System Requirements](#-system-requirements)
-  - [Quick Start](#-quick-start)
-    - [API Key](#-api-key)
-    - [Listed Issue Information](#-listed-issue-information)
-    - [Stock Prices (OHCL)](#-stock-prices-ohcl)
-    - [Morning Session Stock Prices (OHCL)](#-morning-session-stock-prices-ohcl)
-    - [Trading by Type of Investors](#-trading-by-type-of-investors)
-    - [Margin Trading Outstandings](#-margin-trading-outstandings)
-    - [Short Sale Value and Ratio by Sector](#-short-sale-value-and-ratio-by-sector)
-    - [Breakdown Trading Data](#-breakdown-trading-data)
-    - [Trading Calendar](#-trading-calendar)
-    - [Indices (OHLC)](#-indices-ohlc)
-    - [TOPIX Prices (OHLC)](#-topix-prices-ohlc)
-    - [Financial Data](#-financial-data)
-    - [Financial Statement Data (BS/PL)](#-financial-statement-data-bspl)
-    - [Cash Dividend Data](#-cash-dividend-data)
-    - [Earnings Calendar](#-earnings-calendar)
-    - [Daily Nikkei 225 Options Prices (OHCL)](#-daily-nikkei-225-options-prices-ohcl)
-    - [Futures (OHLC)](#-futures-ohlc)
-    - [Options (OHLC)](#-options-ohlc)
-  - [Advance Usage](#-advance-usage)
-  - [References](#-references)
-  - [License](#-license)
+  - [動作環境](#-動作環境)
+  - [クイックスタート](#-クイックスタート)
+    - [APIキー](#-apiキー)
+    - [上場銘柄情報](#-上場銘柄情報)
+    - [株価四本値](#-株価四本値)
+    - [前場株価四本値](#-前場株価四本値)
+    - [投資部門別売買状況](#-投資部門別売買状況)
+    - [信用取引残高](#-信用取引残高)
+    - [業種別空売り比率](#-業種別空売り比率)
+    - [内訳取引データ](#-内訳取引データ)
+    - [取引カレンダー](#-取引カレンダー)
+    - [指数（OHLC）](#-指数ohlc)
+    - [TOPIX価格（OHLC）](#-topix価格ohlc)
+    - [財務データ](#-財務データ)
+    - [財務諸表データ（BS/PL）](#-財務諸表データbspl)
+    - [配当金データ](#-配当金データ)
+    - [決算発表カレンダー](#-決算発表カレンダー)
+    - [日経225オプション価格（日次）](#-日経225オプション価格日次)
+    - [先物（OHLC）](#-先物ohlc)
+    - [オプション（OHLC）](#-オプションohlc)
+  - [上級者向け使用方法](#-上級者向け使用方法)
+  - [参考資料](#-参考資料)
+  - [ライセンス](#-ライセンス)
  
 
-## System Requirements
+## 動作環境
 
-Currently, the software has been tested with the following Common Lisp implementations under Ubuntu 24.04.
+現在、Ubuntu 24.04 環境において以下の Common Lisp 処理系での動作を確認しています。
 - SBCL (2.1.1+)
 - LispWorks (7.1+)
 
-## Quick Start
+## クイックスタート
 
-> Set the **\*LOCALE\*** variable to **:JP** to keep the original Japanaese description.
+> **\*LOCALE\*** 変数を **:JP** に設定することで、元の日本語の説明を保持できます。
 
 ```lisp
 (setf cl-jquants-api:*locale* :jp)
 ```
 
-### API Key
+### APIキー
 
-> Set the API key for authentication. Obtain your API key from [J-Quants](https://jpx-jquants.com/).
+> 認証用の API キーを設定します。API キーは [J-Quants](https://jpx-jquants.com/) から取得してください。
 
 ```lisp
 (cl-jquants-api:set-api-key "YOUR-API-KEY")
 ```
 
-Reference: [J-Quants API v2](https://jpx-jquants.com/)
+参考: [J-Quants API v2](https://jpx-jquants.com/)
 
-### Listed Issue Information
+### 上場銘柄情報
 
 ```lisp
 CL-USER> (describe 'get-listed-issue-master)
@@ -71,7 +71,7 @@ GET-LISTED-ISSUE-MASTER names a compiled function:
 ```
 <br/>
 
-> Download referential data for all stocks listed in Japan Exchange as of 2024-12-27.
+> 2024-12-27 時点の日本の全上場銘柄の参照データをダウンロードします。
 
 ```lisp
 (defvar all-stocks (get-listed-issue-master :date 20241227))
@@ -79,9 +79,9 @@ all-stocks
 ```
 <br/>
 
-> The **LISTED-ISSUE-MASTER** returns both Japanese and English values and the library internally overwrites
-> **COMPANY-NAME**, **SECTOR17-CODE-NAME**, **SECTOR33-CODE-NAME**, **MARKET-CODE-NAME**, and **MARGIN-CODE-NAME** with English description
-> unless **\*LOCALE\*** is set to **:JP**.
+> **LISTED-ISSUE-MASTER** は日本語と英語の両方の値を返します。**\*LOCALE\*** を **:JP** に設定しない限り、
+> **COMPANY-NAME**、**SECTOR17-CODE-NAME**、**SECTOR33-CODE-NAME**、**MARKET-CODE-NAME**、**MARGIN-CODE-NAME**
+> はライブラリ内部で英語の説明に上書きされます。
 
 ```lisp
 (#<LISTED-ISSUE-MASTER: CODE=13010 DATE=1735257600 COMPANY-NAME=KYOKUYO CO.,LTD. COMPANY-NAME-ENGLISH=KYOKUYO CO.,LTD. SECTOR17-CODE=1 SECTOR17-CODE-NAME=FOODS SECTOR33-CODE=0050 SECTOR33-CODE-NAME=Fishery, Agriculture & Forestry SCALE-CATEGORY=TOPIX Small 2 MARKET-CODE=0111 MARKET-CODE-NAME=Prime MARGIN-CODE=2 MARGIN-CODE-NAME=Loan issues>
@@ -95,7 +95,7 @@ all-stocks
 ```
 <br/>
 
-> Code contains "0" at the end of ticker symbol. For example, a code for SONY GROUP CORPORATION (6758) is "67580".
+> コードはティッカーシンボルの末尾に "0" が付きます。例えば、SONY GROUP CORPORATION（6758）のコードは "67580" です。
 
 ```lisp
 (find-if #'(lambda (obj)
@@ -123,7 +123,7 @@ all-stocks-jp
 ```
 <br/>
 
-> Find SONY GROUP CORPORATION (6758) data.
+> SONY GROUP CORPORATION（6758）のデータを検索します。
 
 ```lisp
 (find-if #'(lambda (obj)
@@ -135,9 +135,9 @@ all-stocks-jp
 #<LISTED-ISSUE-MASTER: CODE=67580 DATE=1735257600 COMPANY-NAME=ソニーグループ COMPANY-NAME-ENGLISH=SONY GROUP CORPORATION SECTOR17-CODE=9 SECTOR17-CODE-NAME=電機・精密 SECTOR33-CODE=3650 SECTOR33-CODE-NAME=電気機器 SCALE-CATEGORY=TOPIX Core30 MARKET-CODE=0111 MARKET-CODE-NAME=プライム MARGIN-CODE=2 MARGIN-CODE-NAME=貸借>
 ```
 
-Reference: [Listed Issue Information](https://jpx-jquants.com/en/api-reference/equities/master)
+参考: [上場銘柄情報](https://jpx-jquants.com/api-reference/equities/master)
 
-### Stock Prices (OHCL)
+### 株価四本値
  
 ```lisp
 CL-USER> (describe 'get-stock-prices)
@@ -151,8 +151,8 @@ GET-STOCK-PRICES names a compiled function:
 ```
 <br/>
 
-> Download all stock prices in Japan Exchange as of 2024-12-27.<br>
-> *Some of fields are required for Premium plan and shown as 0 (See the API documents for data availability)*.
+> 2024-12-27 時点の日本の全上場銘柄の株価をダウンロードします。<br>
+> *一部フィールドはプレミアムプランが必要で、対象外の場合は 0 が返されます（データ提供状況については API ドキュメントをご確認ください）。*
 
 ```lisp
 (defvar all-prices (get-stock-prices :date 20241227))
@@ -166,7 +166,7 @@ all-prices
 ```
 <br/>
 
-> Find SONY GROUP CORPORATION (6758) data.
+> SONY GROUP CORPORATION（6758）のデータを検索します。
 
 ```lisp
 (find-if #'(lambda (obj)
@@ -177,9 +177,9 @@ all-prices
 #<STOCK-PRICES: CODE=67580 DATE=1735257600 OPEN-PRICE=3400.0d0 HIGH-PRICE=3423.0d0 LOW-PRICE=3381.0d0 CLOSE-PRICE=3417.0d0 UPPER-LIMIT=0 LOWER-LIMIT=0 VOLUME=1.09376d7 TURNOVER-VALUE=3.72928265d10 ADJUSTMENT-FACTOR=1.0d0 ADJUSTMENT-OPEN=3400.0d0 ADJUSTMENT-HIGH=3423.0d0 ADJUSTMENT-LOW=3381.0d0 ADJUSTMENT-CLOSE=3417.0d0 ADJUSTMENT-VOLUME=1.09376d7 MORNING-OPEN=0.0 MORNING-HIGH=0.0 MORNING-LOW=0.0 MORNING-CLOSE=0.0 MORNING-UPPER-LIMIT=0.0 MORNING-LOWER-LIMIT=0.0 MORNING-VOLUME=0.0 MORNING-TURNOVER-VALUE=0.0 MORNING-ADJUSTMENT-OPEN=0.0 MORNING-ADJUSTMENT-HIGH=0.0 MORNING-ADJUSTMENT-LOW=0.0 MORNING-ADJUSTMENT-CLOSE=0.0 MORNING-ADJUSTMENT-VOLUME=0.0 AFTERNOON-OPEN=0.0 AFTERNOON-HIGH=0.0 AFTERNOON-LOW=0.0 AFTERNOON-CLOSE=0.0 AFTERNOON-UPPER-LIMIT=0.0 AFTERNOON-LOWER-LIMIT=0.0 AFTERNOON-VOLUME=0.0 AFTERNOON-TURNOVER-VALUE=0.0 AFTERNOON-ADJUSTMENT-OPEN=0.0 AFTERNOON-ADJUSTMENT-HIGH=0.0 AFTERNOON-ADJUSTMENT-LOW=0.0 AFTERNOON-ADJUSTMENT-CLOSE=0.0 AFTERNOON-ADJUSTMENT-VOLUME=0.0>
 ```
 
-Reference: [Stock Prices (OHCL)](https://jpx-jquants.com/en/api-reference/equities/bars/daily)
+参考: [株価四本値](https://jpx-jquants.com/api-reference/equities/bars/daily)
 
-### Morning Session Stock Prices (OHCL)
+### 前場株価四本値
 
 ```lisp
 CL-USER> (describe 'get-morning-session-stock-prices)
@@ -191,9 +191,9 @@ GET-MORNING-SESSION-STOCK-PRICES names a compiled function:
   Derived type: (FUNCTION (&KEY (:CODE T)) (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Morning Session Stock Prices (OHCL)](https://jpx-jquants.com/en/api-reference/equities/bars/daily/am)
+参考: [前場株価四本値](https://jpx-jquants.com/api-reference/equities/bars/daily/am)
 
-### Trading by Type of Investors
+### 投資部門別売買状況
 
 ```lisp
 CL-USER> (describe 'get-trading-by-type-of-investors)
@@ -207,8 +207,8 @@ GET-TRADING-BY-TYPE-OF-INVESTORS names a compiled function:
 ```
 <br/>
 
-> Download a stock trading value by type of investors for **TSE Prime section**.<br>
-> *See src/constant.lisp for available sctions.*
+> **東証プライム市場**の投資部門別売買金額をダウンロードします。<br>
+> *利用可能なセクションについては src/constant.lisp をご参照ください。*
 
 ```lisp
 (defvar investor-types (get-trading-by-type-of-investors :section "TSE1st"))
@@ -221,9 +221,9 @@ investor-types
  ...
 ```
 
-Reference: [Trading by Type of Investors](https://jpx-jquants.com/en/api-reference/equities/investor-types)
+参考: [投資部門別売買状況](https://jpx-jquants.com/api-reference/equities/investor-types)
 
-### Margin Trading Outstandings
+### 信用取引残高
 
 ```lisp
 CL-USER> (describe 'get-margin-trading-outstandings)
@@ -237,8 +237,8 @@ GET-MARGIN-TRADING-OUTSTANDINGS names a compiled function:
 ```
 <br/>
 
-> Download margin trading outstandings on 2024-12-27.<br>
-> *See src/constant.lisp for an issue type mapping.*
+> 2024-12-27 時点の信用取引残高をダウンロードします。<br>
+> *銘柄種別のマッピングについては src/constant.lisp をご参照ください。*
 
 ```lisp
 (defvar margin-tradings (get-margin-trading-outstandings :date 20241227))
@@ -252,9 +252,9 @@ margin-tradings
 ...
 ```
 
-Reference: [Margin Trading Outstandings](https://jpx-jquants.com/en/api-reference/markets/margin-interest)
+参考: [信用取引残高](https://jpx-jquants.com/api-reference/markets/margin-interest)
 
-### Short Sale Value and Ratio by Sector
+### 業種別空売り比率
 
 ```lisp
 CL-USER> (describe 'get-short-sale-value-and-ratio-by-sector)
@@ -269,8 +269,8 @@ GET-SHORT-SALE-VALUE-AND-RATIO-BY-SECTOR names a compiled function:
 ```
 <br/>
 
-> Download short-sale values by **SECTOR 33** on 2024-12-27.<br>
-> *See src/constant.lisp for a sector mapping.*
+> 2024-12-27 時点の **SECTOR 33** 業種別空売り金額をダウンロードします。<br>
+> *業種のマッピングについては src/constant.lisp をご参照ください。*
 
 ```lisp
 (defvar short-sales (get-short-sale-value-and-ratio-by-sector :date 20241227))
@@ -285,9 +285,9 @@ short-sales
  ...
  ```
 
-Reference: [Short Sale Value and Ratio by Sector](https://jpx-jquants.com/en/api-reference/markets/short-ratio)
+参考: [業種別空売り比率](https://jpx-jquants.com/api-reference/markets/short-ratio)
 
-### Breakdown Trading Data
+### 内訳取引データ
 
 ```lisp
 CL-USER> (describe 'get-breakdown-trading-data)
@@ -300,9 +300,9 @@ GET-BREAKDOWN-TRADING-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Breakdown Trading Data](https://jpx-jquants.com/en/api-reference/markets/breakdown)
+参考: [内訳取引データ](https://jpx-jquants.com/api-reference/markets/breakdown)
 
-### Trading Calendar
+### 取引カレンダー
 
 ```lisp
 CL-USER> (describe 'get-trading-calendar)
@@ -316,8 +316,8 @@ GET-TRADING-CALENDAR names a compiled function:
 ```
 <br/>
 
-> **DATE** is an epoch-time and **HOLIDAY-DIVISION** is a numeric enum values from **\+holiday-division\+**.<br>
-> *See src/constant.lisp for a holiday division mapping.*
+> **DATE** はエポック時間、**HOLIDAY-DIVISION** は **\+holiday-division\+** の数値列挙値です。<br>
+> *休日区分のマッピングについては src/constant.lisp をご参照ください。*
 
 ```lisp
 (defvar trading-calendar (get-trading-calendar))
@@ -334,7 +334,7 @@ CL-USER> trading-calendar
 ```
 <br/>
 
-> Convert **DATE** from an epoch-time to **LOCAL-TIME:TIMESTAMP** object.
+> **DATE** をエポック時間から **LOCAL-TIME:TIMESTAMP** オブジェクトに変換します。
 
 ```lisp
 (local-time:unix-to-timestamp
@@ -345,7 +345,7 @@ CL-USER> trading-calendar
 ```
 <br/>
 
-> Show a description of **HOLIDAY-DIVISION**.
+> **HOLIDAY-DIVISION** の説明を表示します。
 
 ```lisp
 (assoc (holiday-division-of (car (last trading-calendar)))
@@ -355,9 +355,9 @@ CL-USER> trading-calendar
 (0 . "Non-business day")
 ```
 
-Reference: [Trading Calendar](https://jpx-jquants.com/en/api-reference/markets/calendar)
+参考: [取引カレンダー](https://jpx-jquants.com/api-reference/markets/calendar)
 
-### Indices (OHLC)
+### 指数（OHLC）
 
 ```lisp
 CL-USER> (describe 'get-indices-prices)
@@ -371,8 +371,8 @@ GET-INDICES-PRICES names a compiled function:
 ```
 <br/>
 
-> Download indices prices on 2024-12-27.
-> *See src/constant.lisp for an indices mapping.*
+> 2024-12-27 時点の指数価格をダウンロードします。
+> *指数のマッピングについては src/constant.lisp をご参照ください。*
 
 ```lisp
 (defvar index-snapshot (get-indices-prices :date 20241227))
@@ -413,9 +413,9 @@ index-snapshot
 ...
 ```
 
-Reference: [Indices (OHLC)](https://jpx-jquants.com/en/api-reference/indices/bars/daily)
+参考: [指数（OHLC）](https://jpx-jquants.com/api-reference/indices/bars/daily)
 
-### TOPIX Prices (OHLC)
+### TOPIX価格（OHLC）
 
 ```lisp
 CL-USER> (describe 'get-topix-prices)
@@ -429,7 +429,7 @@ GET-TOPIX-PRICES names a compiled function:
 ```
 <br/>
 
-> Download the TOPIX prices since 2024-12-20. This is the customized **GET-INDICES-PRICES** API for TOPIX.
+> 2024-12-20 以降の TOPIX 価格をダウンロードします。これは TOPIX 専用にカスタマイズされた **GET-INDICES-PRICES** API です。
 
 ```lisp
 (defvar topix-prices (get-topix-prices :from 20241220))
@@ -454,9 +454,9 @@ topix-prices
  #<TOPIX-PRICES: DATE=1737072000 OPEN-PRICE=2680.6d0 HIGH-PRICE=2682.29d0 LOW-PRICE=2650.07d0 CLOSE-PRICE=2679.42d0>)
 ```
 
-Reference: [TOPIX Prices (OHLC)](https://jpx-jquants.com/en/api-reference/indices/bars/daily/topix)
+参考: [TOPIX価格（OHLC）](https://jpx-jquants.com/api-reference/indices/bars/daily/topix)
 
-### Financial Data
+### 財務データ
 
 ```lisp
 CL-USER> (describe 'get-financial-data)
@@ -469,9 +469,9 @@ GET-FINANCIAL-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Financial Data](https://jpx-jquants.com/en/api-reference/fins/summary)
+参考: [財務データ](https://jpx-jquants.com/api-reference/fins/summary)
 
-### Financial Statement Data (BS/PL)
+### 財務諸表データ（BS/PL）
 
 ```lisp
 CL-USER> (describe 'get-financial-statement-data)
@@ -485,7 +485,7 @@ GET-FINANCIAL-STATEMENT-DATA names a compiled function:
 ```
 <br/>
 
-> Download the financial data for SONY CORPORATION GROUP (6758). All **DATE** related values are in an epoch-time format.
+> SONY GROUP CORPORATION（6758）の財務データをダウンロードします。**DATE** 関連の値はすべてエポック時間形式です。
 
 ```lisp
 (defvar financial-data (get-financial-data :code 6758))
@@ -496,9 +496,9 @@ financial-data
 ...	
 ```
 
-Reference: [Financial Statement Data (BS/PL)](https://jpx-jquants.com/en/api-reference/fins/details)
+参考: [財務諸表データ（BS/PL）](https://jpx-jquants.com/api-reference/fins/details)
 
-### Cash Dividend Data
+### 配当金データ
 
 ```lisp
 CL-USER> (describe 'get-cash-dividend-data)
@@ -511,9 +511,9 @@ GET-CASH-DIVIDEND-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Cash Dividend Data](https://jpx-jquants.com/en/api-reference/fins/dividend)
+参考: [配当金データ](https://jpx-jquants.com/api-reference/fins/dividend)
 
-### Earnings Calendar
+### 決算発表カレンダー
 
 ```lisp
 CL-USER> (describe 'get-earnings-calendar)
@@ -526,8 +526,8 @@ GET-EARNINGS-CALENDAR names a compiled function:
 ```
 <br/>
 
-> Get the latest earning calendar.<br>
-> Seems like an earning calendar is available in Japanese only.
+> 最新の決算発表カレンダーを取得します。<br>
+> 決算発表カレンダーは日本語でのみ提供されているようです。
 
 ```lisp
 (defvar earnings (get-earnings-calendar))
@@ -537,9 +537,9 @@ earnings
 (#<EARNINGS-CALENDAR: CODE=59900 DATE=1737331200 COMPANY-NAME=スーパーツール FISCAL-YEAR=3月15日 SECTOR-NAME=金属製品 FISCAL-QUARTER=第３四半期 SECTION=スタンダード>)
 ```
 
-Reference: [Earnings Calendar](https://jpx-jquants.com/en/api-reference/equities/earnings-calendar)
+参考: [決算発表カレンダー](https://jpx-jquants.com/api-reference/equities/earnings-calendar)
 
-### Daily Nikkei 225 Options Prices (OHCL)
+### 日経225オプション価格（日次）
 
 ```lisp
 CL-USER> (describe 'get-index-option-prices)
@@ -553,7 +553,7 @@ GET-INDEX-OPTION-PRICES names a compiled function:
 ```
 <br/>
 
-> Download the index option prices on 2024-12-27.
+> 2024-12-27 時点の指数オプション価格をダウンロードします。
 
 ```lisp
 (defvar index-option-prices (get-index-option-prices :date 20241227))
@@ -568,9 +568,9 @@ index-option-prices
  ...
  ```
 
-Reference: [Index Option Prices (OHCL)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/options/225)
+参考: [日経225オプション価格（日次）](https://jpx-jquants.com/api-reference/derivatives/bars/daily/options/225)
 
-### Futures (OHLC)
+### 先物（OHLC）
 
 ```lisp
 CL-USER> (describe 'get-futures-data)
@@ -584,9 +584,9 @@ GET-FUTURES-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Futures (OHLC)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/futures)
+参考: [先物（OHLC）](https://jpx-jquants.com/api-reference/derivatives/bars/daily/futures)
 
-### Options (OHLC)
+### オプション（OHLC）
 
 ```lisp
 CL-USER> (describe 'get-options-data)
@@ -601,13 +601,13 @@ GET-OPTIONS-DATA names a compiled function:
 ```
 <br/>
 
-> The J-Quants API returns an empty string if the stock is not eligible for morning / afternoon session.
-> When an empty string is returned, it sets to **NIL**.
+> J-Quants API は、前場・後場に対応していない銘柄の場合は空文字列を返します。
+> 空文字列が返された場合、**NIL** に設定されます。
 
-Reference: [Options (OHLC)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/options)
+参考: [オプション（OHLC）](https://jpx-jquants.com/api-reference/derivatives/bars/daily/options)
 
-## License
+## ライセンス
 
-Licensed under the **MIT License**
+**MIT ライセンス** に基づきライセンスされています。
 <br>
 ©️ 2025 **Y. IGUCHI**
