@@ -3,8 +3,10 @@
 (defun %decode-json-key (text)
   (substitute #\- #\_ (cl-change-case:snake-case text)))
 
-(defmacro make-jquants-instance-from-hash-table (&key class hash-table alternative-keys key-map)
+(defmacro make-jquants-instance-from-hash-table (&key class hash-table alternative-keys key-map overflow-slot)
   `(let ((instance (make-instance ',class)))
+     ,@(when overflow-slot
+         `((setf (slot-value instance ',overflow-slot) (make-hash-table :test 'equal))))
      (maphash
       (lambda (key value)
         (let* ((km-entry (when ,key-map
@@ -28,7 +30,9 @@
                       (t
                        (setf (slot-value instance mapped-key) value)))
                 (cl-jquants-api::handle-slot-value instance mapped-key value))
-            (warn "Invalid key ~a for class ~a" key ',class))))
+            ,(if overflow-slot
+                 `(setf (gethash key (slot-value instance ',overflow-slot)) value)
+                 `(warn "Invalid key ~a for class ~a" key ',class)))))
       ,hash-table)
      (cl-jquants-api::complete-object-update instance)
      instance))
