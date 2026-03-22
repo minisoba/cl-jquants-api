@@ -57,9 +57,9 @@
 (test make-create-table-sql-generates-valid-ddl
   "Should generate a CREATE TABLE statement with correct columns"
   (let* ((obj (make-test-stock-prices :code "13010" :date 1735257600
-                                       :open-price 4070.0d0
-                                       :close-price 4115.0d0
-                                       :volume 29500.0d0))
+                                      :open-price 4070.0d0
+                                      :close-price 4115.0d0
+                                      :volume 29500.0d0))
          (sql (cl-jquants-api::%make-create-table-sql "test_table" obj)))
     (is (search "CREATE TABLE test_table" sql))
     (is (search "code" sql))
@@ -73,9 +73,9 @@
 (test make-insert-sql-generates-valid-insert
   "Should generate an INSERT statement with correct values"
   (let* ((obj (make-test-stock-prices :code "13010" :date 1735257600
-                                       :open-price 4070.0d0
-                                       :close-price 4115.0d0
-                                       :volume 29500.0d0))
+                                      :open-price 4070.0d0
+                                      :close-price 4115.0d0
+                                      :volume 29500.0d0))
          (sql (cl-jquants-api::%make-insert-sql "test_table" obj)))
     (is (search "INSERT INTO test_table VALUES" sql))
     (is (search "'13010'" sql))
@@ -92,13 +92,13 @@
                              :keep t)
     (let ((objects (list
                     (make-test-stock-prices :code "13010" :date 1735257600
-                                             :open-price 4070.0d0
-                                             :close-price 4115.0d0
-                                             :volume 29500.0d0)
+                                            :open-price 4070.0d0
+                                            :close-price 4115.0d0
+                                            :volume 29500.0d0)
                     (make-test-stock-prices :code "13050" :date 1735257600
-                                             :open-price 2000.0d0
-                                             :close-price 2050.0d0
-                                             :volume 10000.0d0))))
+                                            :open-price 2000.0d0
+                                            :close-price 2050.0d0
+                                            :volume 10000.0d0))))
       (unwind-protect
            (progn
              (cl-jquants-api::save-to-parquet objects parquet-path)
@@ -115,30 +115,30 @@
 (test save-to-parquet-verifies-content-via-duckdb
   "Should produce a Parquet file readable by DuckDB with correct row count"
   (let* ((parquet-path (format nil "/tmp/test-parquet-verify-~a.parquet"
-                                (get-universal-time)))
+                               (get-universal-time)))
          (objects (list
                    (make-test-stock-prices :code "13010" :date 1735257600
-                                            :open-price 4070.0d0
-                                            :close-price 4115.0d0
-                                            :volume 29500.0d0)
+                                           :open-price 4070.0d0
+                                           :close-price 4115.0d0
+                                           :volume 29500.0d0)
                    (make-test-stock-prices :code "13050" :date 1735344000
-                                            :open-price 2000.0d0
-                                            :close-price 2050.0d0
-                                            :volume 10000.0d0)
+                                           :open-price 2000.0d0
+                                           :close-price 2050.0d0
+                                           :volume 10000.0d0)
                    (make-test-stock-prices :code "13060" :date 1735430400
-                                            :open-price 500.0d0
-                                            :close-price 510.0d0
-                                            :volume 5000.0d0))))
+                                           :open-price 500.0d0
+                                           :close-price 510.0d0
+                                           :volume 5000.0d0))))
     (unwind-protect
-        (progn
-          (cl-jquants-api::save-to-parquet objects parquet-path)
-          (duckdb:with-open-database (db)
-            (duckdb:with-open-connection (conn db)
-              (let ((result (duckdb:query
+         (progn
+           (cl-jquants-api::save-to-parquet objects parquet-path)
+           (duckdb:with-open-database (db)
+             (duckdb:with-open-connection (conn db)
+               (let ((result (duckdb:query
                               (format nil "SELECT count(*) FROM '~a'" parquet-path)
                               nil :connection conn)))
-                ;; Result: (("count_star()" . #(3)))
-                (is (= 3 (aref (cdar result) 0)))))))
+                 ;; Result: (("count_star()" . #(3)))
+                 (is (= 3 (aref (cdar result) 0)))))))
       (when (probe-file parquet-path)
         (delete-file parquet-path)))))
 

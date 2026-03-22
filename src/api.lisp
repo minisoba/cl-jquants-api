@@ -20,11 +20,11 @@
 
 (defun get-stock-prices (&key code date from to)
   (create-jquants-instance
-    :class    stock-prices
-    :node     "data"
-    :endpoint +equities/bars/daily+
-    :params   `((code . ,code) (date . ,date) (from . ,from) (to . ,to))
-    :key-map '(("O" . open-price) ("H" . high-price) ("L" . low-price) ("C" . close-price)
+   :class    stock-prices
+   :node     "data"
+   :endpoint +equities/bars/daily+
+   :params   `((code . ,code) (date . ,date) (from . ,from) (to . ,to))
+   :key-map '(("O" . open-price) ("H" . high-price) ("L" . low-price) ("C" . close-price)
               ("UL" . upper-limit) ("LL" . lower-limit) ("Vo" . volume) ("Va" . turnover-value)
               ("AdjFactor" . adjustment-factor) ("AdjO" . adjustment-open) ("AdjH" . adjustment-high)
               ("AdjL" . adjustment-low) ("AdjC" . adjustment-close) ("AdjVo" . adjustment-volume)
