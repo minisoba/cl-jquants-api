@@ -35,10 +35,10 @@
          (parse-and-set-undetermined (accessor)
            (let ((value (slot-value obj accessor)))
              (setf (slot-value obj accessor)
-                   (cond ((string= value "-")
-                          :undetermined)
-                         ((null value)
+                   (cond ((null value)
                           :not-applicable)
+                         ((and (stringp value) (string= value "-"))
+                          :undetermined)
                          (t
                           value))))))
     (mapcar #'parse-and-set-number
