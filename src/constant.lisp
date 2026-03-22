@@ -94,7 +94,7 @@ https://jpx-jquants.com/en/api-reference/equities/master")
     (:8050 . "Real Estate")
     (:9050 . "Services")
     (:9999 . "Other"))
-"
+  "
 https://jpx-jquants.com/en/api-reference/equities/master")
 
 (defparameter +index-code-name+
@@ -174,7 +174,7 @@ https://jpx-jquants.com/en/api-reference/equities/master")
     (:8501 . "Tokyo Stock Exchange REIT Office Index")
     (:8502 . "Tokyo Stock Exchange REIT Residential Index")
     (:8503 . "Tokyo Stock Exchange REIT Retail & Logistics, Others Index"))
-"
+  "
 https://jpx-jquants.com/en/api-reference/indices/bars/daily")
 
 (defparameter +margin-code+

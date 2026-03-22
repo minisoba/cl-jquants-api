@@ -42,8 +42,8 @@
 (defmethod complete-object-update ((obj options-data))
   (setf (put-call-division-of obj)
         (if (string= (put-call-division-of obj) "1")
-             :put
-             :call))
+            :put
+            :call))
   (setf (central-contract-month-flag-of obj)
         (if (string= (central-contract-month-flag-of obj) "1")
             :central-contract-month
