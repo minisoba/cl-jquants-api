@@ -1,10 +1,9 @@
 (in-package :cl-jquants-api)
 
 (defun %convert-string-to-epoch-time (old-value)
-  (when-let (new-value (local-time:parse-timestring
-                        old-value
-                        :fail-on-error nil :allow-missing-date-part t))
-    (local-time:timestamp-to-unix new-value)))
+  (local-time:parse-timestring
+   old-value
+   :fail-on-error nil :allow-missing-date-part t))
 
 (defun %convert-string-to-seconds-of-day (old-value)
   (let ((new-value (local-time:parse-timestring

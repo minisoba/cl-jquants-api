@@ -1,9 +1,9 @@
 (in-package :cl-jquants-api)
 
 (defclass trading-by-type-of-investors (jquants-object)
-  ((published-date :accessor published-date-of :initform 0)
-   (start-date :accessor start-date-of :initform 0)
-   (end-date :accessor end-date-of :initform 0)
+  ((published-date :accessor published-date-of :initform (local-time:universal-to-timestamp 0))
+   (start-date :accessor start-date-of :initform (local-time:universal-to-timestamp 0))
+   (end-date :accessor end-date-of :initform (local-time:universal-to-timestamp 0))
    (section :accessor section-of :initform nil)
    (proprietary-sales :accessor proprietary-sales-of :initform 0.0)
    (proprietary-purchases :accessor proprietary-purchases-of :initform 0.0)

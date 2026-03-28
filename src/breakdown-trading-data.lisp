@@ -2,7 +2,7 @@
 
 (defclass breakdown-trading-data (jquants-object)
   ((code :accessor code-of :initform nil)
-   (date :accessor date-of :initform 0)
+   (date :accessor date-of :initform (local-time:universal-to-timestamp 0))
    (long-sell-value :accessor long-sell-value-of :initform 0.0)
    (short-sell-without-margin-value :accessor short-sell-without-margin-value-of :initform 0.0)
    (margin-sell-new-value :accessor margin-sell-new-value-of :initform 0.0)

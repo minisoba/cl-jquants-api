@@ -7,6 +7,9 @@
         collect (cons name
                       (cond ((eql initform 0)   "BIGINT")
                             ((eql initform 0.0) "DOUBLE")
+                            ((and (listp initform)
+                                  (eq (first initform) 'local-time:universal-to-timestamp))
+                             "TIMESTAMP")
                             (t                  "VARCHAR")))))
 
 (defun %slot-values (obj)
@@ -28,6 +31,8 @@
         ((null value)    "NULL")
         ((eq value :undetermined) "NULL")
         ((eq value :not-applicable) "NULL")
+        ((typep value 'local-time:timestamp)
+         (format nil "'~a'" (local-time:format-timestring nil value)))
         (t (format nil "'~a'" (cl-ppcre:regex-replace-all "'" (princ-to-string value) "''")))))
 
 (defun %make-insert-sql (table-name obj)
