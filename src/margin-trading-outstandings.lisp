@@ -2,7 +2,7 @@
 
 (defclass margin-trading-outstandings (jquants-object)
   ((code :accessor code-of :initform nil)
-   (date :accessor date-of :initform 0)
+   (date :accessor date-of :initform (local-time:universal-to-timestamp 0))
    (short-margin-trade-volume :accessor short-margin-trade-volume-of :initform 0.0)
    (long-margin-trade-volume :accessor long-margin-trade-volume-of :initform 0.0)
    (short-negotiable-margin-trade-volume :accessor short-negotiable-margin-trade-volume-of :initform 0.0)

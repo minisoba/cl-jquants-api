@@ -1,7 +1,7 @@
 (in-package :cl-jquants-api)
 
 (defclass short-sale-value-and-ratio-by-sector (jquants-object)
-  ((date :accessor date-of :initform 0)
+  ((date :accessor date-of :initform (local-time:universal-to-timestamp 0))
    (sector33-code :accessor sector33-code-of :initform nil)
    (selling-excluding-short-selling-turnover-value :accessor selling-excluding-short-selling-turnover-value-of :initform 0.0)
    (short-selling-with-restrictions-turnover-value :accessor short-selling-with-restrictions-turnover-value-of :initform 0.0)
