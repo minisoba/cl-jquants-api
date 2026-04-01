@@ -1,7 +1,6 @@
 (in-package :cl-jquants-api)
 
-(defvar *api-token* nil)
-(defvar *refresh-token* nil)
+(defvar *api-key* nil)
 
 (define-condition http-request-error (jquants-error)
   ((status :reader status :initarg :status)
@@ -19,7 +18,7 @@
 (defvar *http-handler* (make-instance 'http-handler))
 
 (defun %build-headers ()
-  `(("Authorization" . ,(format nil "Bearer ~a" *api-token*))))
+  `(("x-api-key" . ,*api-key*)))
 
 (defmethod send-request ((obj http-handler) endpoint method
                          &key (content nil) (stream *standard-output*) (timeout 20))

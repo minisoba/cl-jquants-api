@@ -1,3 +1,4 @@
 (in-package :cl-jquants-api)
 
-(defstruct auth mailaddress password)
+(defun set-api-key (key)
+  (setf *api-key* key))
