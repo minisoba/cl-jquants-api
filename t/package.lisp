@@ -4,9 +4,8 @@
   (:use :cl :alexandria :fiveam :cl-jquants-api)
   (:import-from :cl-jquants-api #:send-request)
   (:export
-   #:run-api-test
-   #:run-parquet-test
-   #:cl-jquants-tests))
+   #:run-tests
+   #:cl-jquants-api-tests))
 
 (in-package :cl-jquants-api.test)
 
