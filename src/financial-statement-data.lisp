@@ -103,12 +103,12 @@
       (mapcar (lambda (accessor)
                 (let ((flag (slot-value fs accessor)))
                   (setf (slot-value fs accessor)
-                      (cond ((string= flag "true")
-                             t)
-                            ((string= flag "false")
-                             nil)
-                            (t
-                             flag)))))
+                        (cond ((string= flag "true")
+                               t)
+                              ((string= flag "false")
+                               nil)
+                              (t
+                               flag)))))
               (list 'whether-consolidated-financial-statements-are-prepared-dei
                     'xbrl-amendment-flag-dei
                     'amendment-flag-dei
