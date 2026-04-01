@@ -1,8 +1,8 @@
 {
-    "trading_calendar": [
+    "data": [
         {
             "Date": "2015-04-01", 
-            "HolidayDivision": "1"
+            "HolDiv": "1"
         }
     ]
 }

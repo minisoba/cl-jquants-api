@@ -19,9 +19,8 @@
    #:jquants-error
    #:http-request-error
 
-   #:auth-user
-   #:auth-refresh
-   #:make-auth
+   #:set-api-key
+   #:*api-key*
 
    #:breakdown-trading-data
    #:get-breakdown-trading-data

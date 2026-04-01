@@ -9,8 +9,7 @@ This library enables developers to easily access and manipulate financial data p
 - [J-Quants API for Common Lisp](#j-quants-api-for-common-lisp)
   - [System Requirements](#-system-requirements)
   - [Quick Start](#-quick-start)
-    - [Refresh Token](#-refresh-token)
-    - [ID Token](#-id-token)
+    - [API Key](#-api-key)
     - [Listed Issue Information](#-listed-issue-information)
     - [Stock Prices (OHCL)](#-stock-prices-ohcl)
     - [Morning Session Stock Prices (OHCL)](#-morning-session-stock-prices-ohcl)
@@ -47,25 +46,15 @@ Currently, the software has been tested with the following Common Lisp implement
 (setf cl-jquants-api:*locale* :jp)
 ```
 
-### Refresh Token
+### API Key
 
-> Refresh the API token. The API token is valid for one week.
-
-```lisp
-(defvar auth (make-auth :password "**********" :mailaddress "**********"))
-(auth-user auth)
-```
-Reference: [Refresh Token](https://jpx.gitbook.io/j-quants-en/api-reference/refreshtoken)
-
-### ID Token
-
-> Obtain the ID token. The ID token is valid for 24 hours.
+> Set the API key for authentication. Obtain your API key from [J-Quants](https://jpx-jquants.com/).
 
 ```lisp
-(auth-refresh)
+(cl-jquants-api:set-api-key "YOUR-API-KEY")
 ```
 
-Reference: [ID Token](https://jpx.gitbook.io/j-quants-en/api-reference/idtoken)
+Reference: [J-Quants API v2](https://jpx-jquants.com/)
 
 ### Listed Issue Information
 
@@ -145,7 +134,7 @@ all-stocks-jp
 #<LISTED-ISSUE-MASTER: CODE=67580 DATE=1735257600 COMPANY-NAME=ソニーグループ COMPANY-NAME-ENGLISH=SONY GROUP CORPORATION SECTOR17-CODE=9 SECTOR17-CODE-NAME=電機・精密 SECTOR33-CODE=3650 SECTOR33-CODE-NAME=電気機器 SCALE-CATEGORY=TOPIX Core30 MARKET-CODE=0111 MARKET-CODE-NAME=プライム MARGIN-CODE=2 MARGIN-CODE-NAME=貸借>
 ```
 
-Reference: [Listed Issue Information](https://jpx.gitbook.io/j-quants-en/api-reference/listed_info)
+Reference: [Listed Issue Information](https://jpx-jquants.com/en/api-reference/equities/master)
 
 ### Stock Prices (OHCL)
  
@@ -187,7 +176,7 @@ all-prices
 #<STOCK-PRICES: CODE=67580 DATE=1735257600 OPEN-PRICE=3400.0d0 HIGH-PRICE=3423.0d0 LOW-PRICE=3381.0d0 CLOSE-PRICE=3417.0d0 UPPER-LIMIT=0 LOWER-LIMIT=0 VOLUME=1.09376d7 TURNOVER-VALUE=3.72928265d10 ADJUSTMENT-FACTOR=1.0d0 ADJUSTMENT-OPEN=3400.0d0 ADJUSTMENT-HIGH=3423.0d0 ADJUSTMENT-LOW=3381.0d0 ADJUSTMENT-CLOSE=3417.0d0 ADJUSTMENT-VOLUME=1.09376d7 MORNING-OPEN=0.0 MORNING-HIGH=0.0 MORNING-LOW=0.0 MORNING-CLOSE=0.0 MORNING-UPPER-LIMIT=0.0 MORNING-LOWER-LIMIT=0.0 MORNING-VOLUME=0.0 MORNING-TURNOVER-VALUE=0.0 MORNING-ADJUSTMENT-OPEN=0.0 MORNING-ADJUSTMENT-HIGH=0.0 MORNING-ADJUSTMENT-LOW=0.0 MORNING-ADJUSTMENT-CLOSE=0.0 MORNING-ADJUSTMENT-VOLUME=0.0 AFTERNOON-OPEN=0.0 AFTERNOON-HIGH=0.0 AFTERNOON-LOW=0.0 AFTERNOON-CLOSE=0.0 AFTERNOON-UPPER-LIMIT=0.0 AFTERNOON-LOWER-LIMIT=0.0 AFTERNOON-VOLUME=0.0 AFTERNOON-TURNOVER-VALUE=0.0 AFTERNOON-ADJUSTMENT-OPEN=0.0 AFTERNOON-ADJUSTMENT-HIGH=0.0 AFTERNOON-ADJUSTMENT-LOW=0.0 AFTERNOON-ADJUSTMENT-CLOSE=0.0 AFTERNOON-ADJUSTMENT-VOLUME=0.0>
 ```
 
-Reference: [Stock Prices (OHCL)](https://jpx.gitbook.io/j-quants-en/api-reference/daily_quotes)
+Reference: [Stock Prices (OHCL)](https://jpx-jquants.com/en/api-reference/equities/bars/daily)
 
 ### Morning Session Stock Prices (OHCL)
 
@@ -201,7 +190,7 @@ GET-MORNING-SESSION-STOCK-PRICES names a compiled function:
   Derived type: (FUNCTION (&KEY (:CODE T)) (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Morning Session Stock Prices (OHCL)](https://jpx.gitbook.io/j-quants-en/api-reference/prices_am)
+Reference: [Morning Session Stock Prices (OHCL)](https://jpx-jquants.com/en/api-reference/equities/bars/daily/am)
 
 ### Trading by Type of Investors
 
@@ -231,7 +220,7 @@ investor-types
  ...
 ```
 
-Reference: [Trading by Type of Investors](https://jpx.gitbook.io/j-quants-en/api-reference/trades_spec)
+Reference: [Trading by Type of Investors](https://jpx-jquants.com/en/api-reference/equities/investor-types)
 
 ### Margin Trading Outstandings
 
@@ -262,7 +251,7 @@ margin-tradings
 ...
 ```
 
-Reference: [Margin Trading Outstandings](https://jpx.gitbook.io/j-quants-en/api-reference/weekly_margin_interest)
+Reference: [Margin Trading Outstandings](https://jpx-jquants.com/en/api-reference/markets/margin-interest)
 
 ### Short Sale Value and Ratio by Sector
 
@@ -295,7 +284,7 @@ short-sales
  ...
  ```
 
-Reference: [Short Sale Value and Ratio by Sector](https://jpx.gitbook.io/j-quants-en/api-reference/short_selling)
+Reference: [Short Sale Value and Ratio by Sector](https://jpx-jquants.com/en/api-reference/markets/short-ratio)
 
 ### Breakdown Trading Data
 
@@ -310,7 +299,7 @@ GET-BREAKDOWN-TRADING-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Breakdown Trading Data](https://jpx.gitbook.io/j-quants-en/api-reference/breakdown)
+Reference: [Breakdown Trading Data](https://jpx-jquants.com/en/api-reference/markets/breakdown)
 
 ### Trading Calendar
 
@@ -365,7 +354,7 @@ CL-USER> trading-calendar
 (0 . "Non-business day")
 ```
 
-Reference: [Trading Calendar](https://jpx.gitbook.io/j-quants-en/api-reference/trading_calendar)
+Reference: [Trading Calendar](https://jpx-jquants.com/en/api-reference/markets/calendar)
 
 ### Indices (OHLC)
 
@@ -423,7 +412,7 @@ index-snapshot
 ...
 ```
 
-Reference: [Indices (OHLC)](https://jpx.gitbook.io/j-quants-en/api-reference/indices)
+Reference: [Indices (OHLC)](https://jpx-jquants.com/en/api-reference/indices/bars/daily)
 
 ### TOPIX Prices (OHLC)
 
@@ -464,7 +453,7 @@ topix-prices
  #<TOPIX-PRICES: DATE=1737072000 OPEN-PRICE=2680.6d0 HIGH-PRICE=2682.29d0 LOW-PRICE=2650.07d0 CLOSE-PRICE=2679.42d0>)
 ```
 
-Reference: [TOPIX Prices (OHLC)](https://jpx.gitbook.io/j-quants-en/api-reference/topix)
+Reference: [TOPIX Prices (OHLC)](https://jpx-jquants.com/en/api-reference/indices/bars/daily/topix)
 
 ### Financial Data
 
@@ -479,7 +468,7 @@ GET-FINANCIAL-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Financial Data](https://jpx.gitbook.io/j-quants-en/api-reference/statements)
+Reference: [Financial Data](https://jpx-jquants.com/en/api-reference/fins/summary)
 
 ### Financial Statement Data (BS/PL)
 
@@ -506,7 +495,7 @@ financial-data
 ...	
 ```
 
-Reference: [Financial Statement Data (BS/PL)](https://jpx.gitbook.io/j-quants-en/api-reference/statements-1)
+Reference: [Financial Statement Data (BS/PL)](https://jpx-jquants.com/en/api-reference/fins/details)
 
 ### Cash Dividend Data
 
@@ -521,7 +510,7 @@ GET-CASH-DIVIDEND-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Cash Dividend Data](https://jpx.gitbook.io/j-quants-en/api-reference/dividend)
+Reference: [Cash Dividend Data](https://jpx-jquants.com/en/api-reference/fins/dividend)
 
 ### Earnings Calendar
 
@@ -547,7 +536,7 @@ earnings
 (#<EARNINGS-CALENDAR: CODE=59900 DATE=1737331200 COMPANY-NAME=スーパーツール FISCAL-YEAR=3月15日 SECTOR-NAME=金属製品 FISCAL-QUARTER=第３四半期 SECTION=スタンダード>)
 ```
 
-Reference: [Earnings Calendar](https://jpx.gitbook.io/j-quants-en/api-reference/announcement)
+Reference: [Earnings Calendar](https://jpx-jquants.com/en/api-reference/equities/earnings-calendar)
 
 ### Daily Nikkei 225 Options Prices (OHCL)
 
@@ -578,7 +567,7 @@ index-option-prices
  ...
  ```
 
-Reference: [Index Option Prices (OHCL)](https://jpx.gitbook.io/j-quants-en/api-reference/index_option)
+Reference: [Index Option Prices (OHCL)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/options/225)
 
 ### Futures (OHLC)
 
@@ -594,7 +583,7 @@ GET-FUTURES-DATA names a compiled function:
                  (VALUES LIST &OPTIONAL))
 ```
 
-Reference: [Futures (OHLC)](https://jpx.gitbook.io/j-quants-en/api-reference/futures)
+Reference: [Futures (OHLC)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/futures)
 
 ### Options (OHLC)
 
@@ -614,7 +603,7 @@ GET-OPTIONS-DATA names a compiled function:
 > The J-Quants API returns an empty string if the stock is not eligible for morning / afternoon session.
 > When an empty string is returned, it sets to **NIL**.
 
-Reference: [Options (OHLC)](https://jpx.gitbook.io/j-quants-en/api-reference/options)
+Reference: [Options (OHLC)](https://jpx-jquants.com/en/api-reference/derivatives/bars/daily/options)
 
 ## License
 
