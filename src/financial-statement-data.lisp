@@ -72,7 +72,8 @@
    (current-assets-ifrs :accessor current-assets-ifrs-of :initform 0.0)
    (other-non-current-liabilities-ncl-ifrs :accessor other-non-current-liabilities-ncl-ifrs-of :initform 0.0)
    (other-income-ifrs :accessor other-income-ifrs-of :initform 0.0)
-   (treasury-shares-ifrs :accessor treasury-shares-ifrs-of :initform 0.0)))
+   (treasury-shares-ifrs :accessor treasury-shares-ifrs-of :initform 0.0)
+   (extra-fields :accessor extra-fields-of :initform nil)))
 
 (defclass financial-statement-data (jquants-object)
   ((disclosed-date :accessor disclosed-date-of :initform 0)
@@ -88,7 +89,8 @@
     (setf (financial-statement-raw-of obj) (financial-statement-of obj))
     (let ((fs (make-jquants-instance-from-hash-table
                :class financial-statement-detail-data
-               :hash-table (financial-statement-raw-of obj))))
+               :hash-table (financial-statement-raw-of obj)
+               :overflow-slot extra-fields)))
       (mapcar (lambda (accessor)
                 (setf (slot-value fs accessor)
                       (%convert-string-to-epoch-time (slot-value fs accessor))))
