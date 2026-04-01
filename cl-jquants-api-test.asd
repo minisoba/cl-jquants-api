@@ -16,7 +16,6 @@
                  (:file "t/api")
                  (:file "t/parquet")
                  (:file "t/run-tests"))
-    :in-order-to ((asdf:test-op))
     :perform (asdf:test-op
               (o s)
               (uiop:symbol-call
