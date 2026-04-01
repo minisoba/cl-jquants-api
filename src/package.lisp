@@ -22,6 +22,8 @@
    #:set-api-key
    #:*api-key*
 
+   #:save-to-parquet
+
    #:breakdown-trading-data
    #:get-breakdown-trading-data
 
