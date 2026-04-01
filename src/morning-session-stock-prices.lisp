@@ -2,7 +2,7 @@
 
 (defclass morning-session-stock-prices (jquants-object)
   ((code :accessor code-of :initform nil)
-   (date :accessor date-of :initform 0)
+   (date :accessor date-of :initform (local-time:universal-to-timestamp 0))
    (morning-open :accessor morning-open-of :initform 0.0)
    (morning-high :accessor morning-high-of :initform 0.0)
    (morning-low :accessor morning-low-of :initform 0.0)

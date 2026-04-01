@@ -1,20 +1,20 @@
 (in-package :cl-jquants-api)
 
 (defclass cash-dividend-data (jquants-object)
-  ((announcement-date :accessor announcement-date-of :initform 0)
+  ((announcement-date :accessor announcement-date-of :initform (local-time:universal-to-timestamp 0))
    (announcement-time :accessor announcement-time-of :initform 0)
    (code :accessor code-of :initform nil)
    (reference-number :accessor reference-number-of :initform nil)
    (status-code :accessor status-code-of :initform nil)
-   (board-meeting-date :accessor board-meeting-date-of :initform 0)
+   (board-meeting-date :accessor board-meeting-date-of :initform (local-time:universal-to-timestamp 0))
    (interim-final-code :accessor interim-final-code-of :initform nil)
    (forecast-result-code :accessor forecast-result-code-of :initform nil)
    (interim-final-term :accessor interim-final-term-of :initform nil)
    (gross-dividend-rate :accessor gross-dividend-rate-of :initform 0.0)
-   (record-date :accessor record-date-of :initform 0)
-   (ex-date :accessor ex-date-of :initform 0)
-   (actual-record-date :accessor actual-record-date-of :initform 0)
-   (payable-date :accessor payable-date-of :initform 0)
+   (record-date :accessor record-date-of :initform (local-time:universal-to-timestamp 0))
+   (ex-date :accessor ex-date-of :initform (local-time:universal-to-timestamp 0))
+   (actual-record-date :accessor actual-record-date-of :initform (local-time:universal-to-timestamp 0))
+   (payable-date :accessor payable-date-of :initform (local-time:universal-to-timestamp 0))
    (ca-reference-number :accessor ca-reference-number-of :initform nil)
    (distribution-amount :accessor distribution-amount-of :initform 0.0)
    (retained-earnings :accessor retained-earnings-of :initform 0.0)
@@ -49,4 +49,10 @@
     (mapcar #'parse-and-set-undetermined
             (list 'gross-dividend-rate
                   'payable-date
-                  'commemorative-dividend-rate))))
+                  'commemorative-dividend-rate
+                  'special-dividend-rate
+                  'distribution-amount
+                  'retained-earnings
+                  'deemed-dividend
+                  'deemed-capital-gains
+                  'net-asset-decrease-ratio))))

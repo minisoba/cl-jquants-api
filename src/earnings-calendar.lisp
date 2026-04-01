@@ -2,7 +2,7 @@
 
 (defclass earnings-calendar (jquants-object)
   ((code :accessor code-of :initform nil)
-   (date :accessor date-of :initform 0)
+   (date :accessor date-of :initform (local-time:universal-to-timestamp 0))
    (company-name :accessor company-name-of :initform nil)
    (fiscal-year :accessor fiscal-year-of :initform nil)
    (sector-name :accessor sector-name-of :initform nil)
