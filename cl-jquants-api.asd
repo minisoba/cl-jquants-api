@@ -9,7 +9,6 @@
                  :closer-mop
                  :drakma
                  :duckdb
-                 :fiveam
                  :local-time
                  :parse-number
                  :uiop
@@ -41,5 +40,5 @@
                  (:file "src/trading-by-type-of-investors")
                  (:file "src/trading-calendar")
                  (:file "src/api"))
-    :in-order-to ((asdf:test-op
-                   (asdf:test-op :cl-jquants-api-test))))
+  :in-order-to ((asdf:test-op
+                 (asdf:test-op :cl-jquants-api-test))))

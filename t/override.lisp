@@ -11,7 +11,6 @@
   (merge-pathnames filename (asdf:system-relative-pathname "cl-jquants-api" "t/data/")))
 
 (defun %mock-http-response-from-json (filename)
-;  (when-let (json (read-file-into-string (%get-json-file-path filename) :external-format :utf-8))
   (when-let (json (read-file-into-string (%get-json-file-path filename)))
     (yason:parse json)))
 
