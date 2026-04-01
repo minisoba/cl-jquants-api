@@ -13,8 +13,10 @@
                  :yason)
     :components ((:file "t/package")
                  (:file "t/override")
-                 (:file "t/api"))
+                 (:file "t/api")
+                 (:file "t/parquet")
+                 (:file "t/run-tests"))
     :perform (asdf:test-op
               (o s)
               (uiop:symbol-call
-               :cl-jquants-api.test '#:run-test)))
+               :cl-jquants-api.test '#:run-tests)))
