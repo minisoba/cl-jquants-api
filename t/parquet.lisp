@@ -87,23 +87,24 @@
 
 (test save-to-parquet-creates-file
   "Should create a Parquet file on disk"
-  (let* ((parquet-path (format nil "/tmp/test-parquet-~a.parquet"
-                                (get-universal-time)))
-         (objects (list
-                   (make-test-stock-prices :code "13010" :date 1735257600
-                                            :open-price 4070.0d0
-                                            :close-price 4115.0d0
-                                            :volume 29500.0d0)
-                   (make-test-stock-prices :code "13050" :date 1735257600
-                                            :open-price 2000.0d0
-                                            :close-price 2050.0d0
-                                            :volume 10000.0d0))))
-    (unwind-protect
-        (progn
-          (cl-jquants-api::save-to-parquet objects parquet-path)
-          (is (probe-file parquet-path)))
-      (when (probe-file parquet-path)
-        (delete-file parquet-path)))))
+  (uiop:with-temporary-file (:name parquet-path
+                            :type "parquet"
+                            :keep t)
+    (let ((objects (list
+                    (make-test-stock-prices :code "13010" :date 1735257600
+                                             :open-price 4070.0d0
+                                             :close-price 4115.0d0
+                                             :volume 29500.0d0)
+                    (make-test-stock-prices :code "13050" :date 1735257600
+                                             :open-price 2000.0d0
+                                             :close-price 2050.0d0
+                                             :volume 10000.0d0))))
+      (unwind-protect
+           (progn
+             (cl-jquants-api::save-to-parquet objects parquet-path)
+             (is (probe-file parquet-path)))
+        (when (probe-file parquet-path)
+          (delete-file parquet-path))))))
 
 (test save-to-parquet-empty-list
   "Should return nil and not create a file for empty list"
