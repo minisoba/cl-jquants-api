@@ -3,6 +3,10 @@
 (defclass mock-http-handler (cl-jquants-api::http-handler)
   ())
 
+(defclass pagination-mock-http-handler (cl-jquants-api::http-handler)
+  ((call-count :initform 0 :accessor call-count)
+   (last-endpoint :initform nil :accessor last-endpoint)))
+
 (defun %get-json-file-path (filename)
   (merge-pathnames filename (asdf:system-relative-pathname "cl-jquants-api" "t/data/")))
 
@@ -50,3 +54,11 @@
            (%mock-http-response-from-json "FuturesData.json"))
           ((string-match "derivatives/bars/daily/options" endpoint)
            (%mock-http-response-from-json "OptionsData.json")))))
+
+(defmethod send-request ((obj pagination-mock-http-handler) endpoint method
+                         &key (content nil) (stream *standard-output*) (timeout 20))
+  (declare (ignore method content stream timeout))
+  (setf (last-endpoint obj) endpoint)
+  (let ((page (incf (call-count obj))))
+    (cond ((= page 1) (%mock-http-response-from-json "TopixPricesPage1.json"))
+          (t          (%mock-http-response-from-json "TopixPricesPage2.json")))))

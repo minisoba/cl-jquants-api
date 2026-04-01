@@ -43,10 +43,15 @@
         (format nil "~a?~{~a~^&~}" endpoint args))))
 
 (defmacro %make-jquants-instance (&key class node endpoint params alternative-keys key-map)
-  `(let ((url (%build-url ,endpoint ,params))
+  `(let ((base-url (%build-url ,endpoint ,params))
          (instances '()))
      (loop
        with pagination-key
+       for url = base-url
+               then (format nil "~a~apagination_key=~a"
+                            base-url
+                            (if (find #\? base-url) "&" "?")
+                            pagination-key)
        do (let ((response (perform-http-request url :method :get)))
             (unless response
               (warn "Empty response from API endpoint: ~a" url)
@@ -59,8 +64,7 @@
                      :alternative-keys ,alternative-keys
                      :key-map ,key-map)
                     instances)))
-       while pagination-key
-       do (setf url (format nil "~a&pagination_key=~a" url pagination-key)))
+       while pagination-key)
      (nreverse instances)))
 
 (defmacro create-jquants-instance (&key class node endpoint params alternative-keys key-map)
