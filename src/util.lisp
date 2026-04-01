@@ -48,7 +48,9 @@
      (loop
        with pagination-key
        do (let ((response (perform-http-request url :method :get)))
-            (unless response (return))
+            (unless response
+              (warn "Empty response from API endpoint: ~a" url)
+              (return))
             (setf pagination-key (gethash "pagination_key" response))
             (dolist (hash-table (gethash ,node response))
               (push (make-jquants-instance-from-hash-table
