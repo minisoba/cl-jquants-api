@@ -1,6 +1,6 @@
 (in-package :cl-jquants-api)
 
-(defvar *api-key* nil)
+(defvar *api-key* (uiop:getenv "JQUANTS_API_KEY"))
 
 (define-condition http-request-error (jquants-error)
   ((status :reader status :initarg :status)
