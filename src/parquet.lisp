@@ -27,6 +27,7 @@
         ((numberp value) (format nil "~a" value))
         ((null value)    "NULL")
         ((eq value :undetermined) "NULL")
+        ((eq value :not-applicable) "NULL")
         (t (format nil "'~a'" (cl-ppcre:regex-replace-all "'" (princ-to-string value) "''")))))
 
 (defun %make-insert-sql (table-name obj)
