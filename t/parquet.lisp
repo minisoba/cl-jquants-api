@@ -87,9 +87,9 @@
 
 (test save-to-parquet-creates-file
   "Should create a Parquet file on disk"
-  (uiop:with-temporary-file (:name parquet-path
-                            :type "parquet"
-                            :keep t)
+  (uiop:with-temporary-file (:pathname parquet-path
+                             :type "parquet"
+                             :keep t)
     (let ((objects (list
                     (make-test-stock-prices :code "13010" :date 1735257600
                                              :open-price 4070.0d0
