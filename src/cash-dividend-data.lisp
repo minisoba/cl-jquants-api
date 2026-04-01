@@ -15,7 +15,7 @@
    (ex-date :accessor ex-date-of :initform 0)
    (actual-record-date :accessor actual-record-date-of :initform 0)
    (payable-date :accessor payable-date-of :initform 0)
-   (ca-reference-number :accessor ca-reference-number-of :initform 0.0)
+   (ca-reference-number :accessor ca-reference-number-of :initform nil)
    (distribution-amount :accessor distribution-amount-of :initform 0.0)
    (retained-earnings :accessor retained-earnings-of :initform 0.0)
    (deemed-dividend :accessor deemed-dividend-of :initform 0.0)
@@ -35,10 +35,10 @@
          (parse-and-set-undetermined (accessor)
            (let ((value (slot-value obj accessor)))
              (setf (slot-value obj accessor)
-                   (cond ((string= value "-")
-                          :undetermined)
-                         ((null value)
+                   (cond ((null value)
                           :not-applicable)
+                         ((and (stringp value) (string= value "-"))
+                          :undetermined)
                          (t
                           value))))))
     (mapcar #'parse-and-set-number
