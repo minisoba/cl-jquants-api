@@ -1,0 +1,12 @@
+(in-package :cl-jquants-api)
+
+(defclass margin-trading-outstandings (jquants-object)
+  ((code :accessor code-of :initform nil)
+   (date :accessor date-of :initform 0)
+   (short-margin-trade-volume :accessor short-margin-trade-volume-of :initform 0.0)
+   (long-margin-trade-volume :accessor long-margin-trade-volume-of :initform 0.0)
+   (short-negotiable-margin-trade-volume :accessor short-negotiable-margin-trade-volume-of :initform 0.0)
+   (long-negotiable-margin-trade-volume :accessor long-negotiable-margin-trade-volume-of :initform 0.0)
+   (short-standardized-margin-trade-volume :accessor short-standardized-margin-trade-volume-of :initform 0.0)
+   (long-standardized-margin-trade-volume :accessor long-standardized-margin-trade-volume-of :initform 0.0)
+   (issue-type :accessor issue-type-of :initform 0.0)))

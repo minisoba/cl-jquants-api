@@ -1,0 +1,36 @@
+{
+    "index_option": [
+        {
+            "Date": "2023-03-22",
+            "Code": "130060018",
+            "WholeDayOpen": 0.0,
+            "WholeDayHigh": 0.0,
+            "WholeDayLow": 0.0,
+            "WholeDayClose": 0.0,
+            "NightSessionOpen": 0.0,
+            "NightSessionHigh": 0.0,
+            "NightSessionLow": 0.0,
+            "NightSessionClose": 0.0,
+            "DaySessionOpen": 0.0,
+            "DaySessionHigh": 0.0,
+            "DaySessionLow": 0.0,
+            "DaySessionClose": 0.0,
+            "Volume": 0.0,
+            "OpenInterest": 330.0,
+            "TurnoverValue": 0.0,
+            "ContractMonth": "2025-06",
+            "StrikePrice": 20000.0,
+            "Volume(OnlyAuction)": 0.0,
+            "EmergencyMarginTriggerDivision": "002",
+            "PutCallDivision": "1",
+            "LastTradingDay": "2025-06-12",
+            "SpecialQuotationDay": "2025-06-13",
+            "SettlementPrice": 980.0,
+            "TheoreticalPrice": 974.641,
+            "BaseVolatility": 17.93025,
+            "UnderlyingPrice": 27466.61,
+            "ImpliedVolatility": 23.1816,
+            "InterestRate": 0.2336
+        }
+    ]
+}

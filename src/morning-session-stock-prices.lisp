@@ -1,0 +1,11 @@
+(in-package :cl-jquants-api)
+
+(defclass morning-session-stock-prices (jquants-object)
+  ((code :accessor code-of :initform nil)
+   (date :accessor date-of :initform 0)
+   (morning-open :accessor morning-open-of :initform 0.0)
+   (morning-high :accessor morning-high-of :initform 0.0)
+   (morning-low :accessor morning-low-of :initform 0.0)
+   (morning-close :accessor morning-close-of :initform 0.0)
+   (morning-volume :accessor morning-volume-of :initform 0.0)
+   (morning-turnover-value :accessor morning-turnover-value-of :initform 0.0)))
