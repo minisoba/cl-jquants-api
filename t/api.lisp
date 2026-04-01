@@ -595,7 +595,7 @@
                  (local-time:timestamp-to-unix
                   (local-time:parse-timestring "2024-09-13"))))
           (is (= (settlement-price-of obj) 2829.0d0))
-          (is (string= (central-contract-month-flag-of obj) :others))))))
+          (is (eq (central-contract-month-flag-of obj) :others))))))
 
 (test get-options-data
   (with-fixture mock-api ()
