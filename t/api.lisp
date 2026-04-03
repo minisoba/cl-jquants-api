@@ -36,7 +36,7 @@
 (test get-stock-prices
   (with-fixture mock-api ()
     (let* ((all-data (get-stock-prices :date 20230324))
-           (obj (car all-data)))                                                               
+           (obj (car all-data)))
       (is (= (date-of obj)
              (local-time:timestamp-to-unix
               (local-time:parse-timestring "2023-03-24"))))
@@ -456,14 +456,14 @@
               (local-time:parse-timestring "2014-03-10"))))
       (is (eq (payable-date-of obj) :undetermined))
       (is (string= (ca-reference-number-of obj) "201402241B00002"))
-      (is (eq (distribution-amount-of obj) nil))
-      (is (eq (retained-earnings-of obj) nil))
-      (is (eq (deemed-dividend-of obj) nil))
-      (is (eq (deemed-capital-gains-of obj) nil))
-      (is (eq (net-asset-decrease-ratio-of obj) nil))
+      (is (eq (distribution-amount-of obj) :not-applicable))
+      (is (eq (retained-earnings-of obj) :not-applicable))
+      (is (eq (deemed-dividend-of obj) :not-applicable))
+      (is (eq (deemed-capital-gains-of obj) :not-applicable))
+      (is (eq (net-asset-decrease-ratio-of obj) :not-applicable))
       (is (= (commemorative-special-code-of obj) 0))
       (is (eq (commemorative-dividend-rate-of obj) :not-applicable))
-      (is (eq (special-dividend-rate-of obj) nil)))))
+      (is (eq (special-dividend-rate-of obj) :not-applicable)))))
 
 (test get-financial-statement-data
   (with-fixture mock-api ()

@@ -15,5 +15,11 @@
   #+lispworks
   (progn
     (lw:set-default-character-element-type 'cl:character)
-    (setf system:*specific-valid-file-encodings* '(:latin-1 :utf-8))
-    (setf system:*default-valid-file-encoding* :utf-8)))
+      (let ((system-package (find-package :system)))
+        (when system-package
+          (let ((specific-encodings (find-symbol "*SPECIFIC-VALID-FILE-ENCODINGS*" system-package))
+                (default-encoding (find-symbol "*DEFAULT-VALID-FILE-ENCODING*" system-package)))
+            (when (and specific-encodings (boundp specific-encodings))
+              (setf (symbol-value specific-encodings) '(:latin-1 :utf-8)))
+            (when (and default-encoding (boundp default-encoding))
+              (setf (symbol-value default-encoding) :utf-8)))))))
