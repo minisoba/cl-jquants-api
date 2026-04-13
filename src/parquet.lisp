@@ -25,14 +25,16 @@
                                 (substitute #\_ #\- (string-downcase (symbol-name name)))
                                 sql-type))))
 
-(defun %sql-escape (value)
-  (cond ((floatp value)  (format nil "~f" value))
-        ((numberp value) (format nil "~a" value))
-        ((null value)    "NULL")
+(defun %sql-escape (value &optional sql-type)
+  (cond ((null value)    "NULL")
         ((eq value :undetermined) "NULL")
         ((eq value :not-applicable) "NULL")
         ((typep value 'local-time:timestamp)
          (format nil "'~a'" (local-time:format-timestring nil value)))
+        ((and (integerp value) (string= sql-type "TIMESTAMP"))
+         (format nil "to_timestamp(~a)" value))
+        ((floatp value)  (format nil "~f" value))
+        ((numberp value) (format nil "~a" value))
         (t (format nil "'~a'" (cl-ppcre:regex-replace-all "'" (princ-to-string value) "''")))))
 
 (defun %make-insert-sql (table-name obj)
@@ -40,9 +42,9 @@
         (vals (%slot-values obj)))
     (format nil "INSERT INTO ~a VALUES (~{~a~^, ~})"
             table-name
-            (loop for (name . _) in cols
+            (loop for (name . sql-type) in cols
                   for val = (cdr (assoc name vals))
-                  collect (%sql-escape val)))))
+                  collect (%sql-escape val sql-type)))))
 
 (defun save-to-parquet (objects parquet-path &key (table-name "jquants_data"))
   "Write a list of jquants-objects to a Parquet file via DuckDB."

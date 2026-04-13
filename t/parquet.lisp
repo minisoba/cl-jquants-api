@@ -52,6 +52,23 @@
   "Single quotes in strings should be escaped"
   (is (string= "'it''s'" (cl-jquants-api::%sql-escape "it's"))))
 
+(test sql-escape-integer-timestamp
+  "Unix epoch integer with TIMESTAMP sql-type should wrap with to_timestamp"
+  (is (string= "to_timestamp(1776038400)"
+               (cl-jquants-api::%sql-escape 1776038400 "TIMESTAMP")))
+  ;; Without sql-type, integer should format as plain number
+  (is (string= "1776038400"
+               (cl-jquants-api::%sql-escape 1776038400))))
+
+(test convert-string-to-epoch-time-non-string
+  "Non-string input (e.g. timestamp initform) should return NIL, not crash"
+  (is (null (cl-jquants-api::%convert-string-to-epoch-time nil)))
+  (is (null (cl-jquants-api::%convert-string-to-epoch-time 0)))
+  (is (null (cl-jquants-api::%convert-string-to-epoch-time
+             (local-time:universal-to-timestamp 0))))
+  ;; Valid string input should still return an epoch integer
+  (is (integerp (cl-jquants-api::%convert-string-to-epoch-time "2026-04-13"))))
+
 ;;; Tests for make-create-table-sql
 
 (test make-create-table-sql-generates-valid-ddl
