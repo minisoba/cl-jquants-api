@@ -1,22 +1,24 @@
 (in-package :cl-jquants-api)
 
 (defun %convert-string-to-epoch-time (old-value)
-  (let ((ts (local-time:parse-timestring
-             old-value
-             :fail-on-error nil :allow-missing-date-part t)))
-    (when ts
-      (local-time:timestamp-to-unix ts))))
+  (when (stringp old-value)
+    (let ((ts (local-time:parse-timestring
+               old-value
+               :fail-on-error nil :allow-missing-date-part t)))
+      (when ts
+        (local-time:timestamp-to-unix ts)))))
 
 (defun %convert-string-to-seconds-of-day (old-value)
-  (let ((new-value (local-time:parse-timestring
-                    old-value
-                    :fail-on-error nil :allow-missing-date-part t)))
-    (cond (new-value
-           (local-time:sec-of new-value))
-          (t
-           (when (cl-ppcre:scan "[0-9]{2}:[0-9]{2}" old-value)
-             (local-time:sec-of
-              (local-time:parse-timestring (format nil "~a:00" old-value))))))))
+  (when (stringp old-value)
+    (let ((new-value (local-time:parse-timestring
+                      old-value
+                      :fail-on-error nil :allow-missing-date-part t)))
+      (cond (new-value
+             (local-time:sec-of new-value))
+            (t
+             (when (cl-ppcre:scan "[0-9]{2}:[0-9]{2}" old-value)
+               (local-time:sec-of
+                (local-time:parse-timestring (format nil "~a:00" old-value)))))))))
 
 (defclass jquants-object ()
   ()
