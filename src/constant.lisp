@@ -206,3 +206,32 @@ https://jpx-jquants.com/en/api-reference/indices/bars/daily")
     (1 . "Commemorative")
     (2 . "Special")
     (3 . "Both")))
+
+(defparameter +futures-code-and-name+
+  '((:TOPIXF   . "TOPIX Futures")
+    (:TOPIXMF  . "Mini-TOPIX Futures")
+    (:MOTF     . "Mothers Futures")
+    (:NKVIF    . "Nikkei Average VI Futures")
+    (:NKYDF    . "Nikkei Average Dividend Index Futures")
+    (:NK225F   . "Nikkei 225 Futures")
+    (:NK225MF  . "Nikkei 225 mini Futures")
+    (:JN400F   . "JPX-Nikkei Index 400 Futures")
+    (:REITF    . "TSE REIT Index Futures")
+    (:DJIAF    . "Dow Jones Industrial Average Futures")
+    (:JGBLF    . "JGB Futures")
+    (:NK225MCF . "Nikkei 225 Micro Futures")
+    (:TOA3MF   . "TONA 3-Month Interest Rate Futures")
+    (:USDJPYF  . "USD/JPY Futures")
+    (:CNHJPYF  . "CNH/JPY Futures")
+    (:EURJPYF  . "EUR/JPY Futures"))
+  "
+https://jpx-jquants.com/en/spec/drv-bars-daily-fut/derivative-product-category")
+
+(defparameter +options-code-and-name+
+  '((:TOPIXE    . "TOPIX Options")
+    (:NK225E    . "Nikkei 225 Options")
+    (:JGBLFE   . "JGB Futures Options")
+    (:EQOP     . "Securities Options")
+    (:NK225MWE . "Nikkei 225 mini Options"))
+  "
+https://jpx-jquants.com/en/spec/drv-bars-daily-opt/derivative-product-category")

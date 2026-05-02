@@ -10,6 +10,8 @@
    #:+sector17-code-and-name+
    #:+sector33-code-and-name+
    #:+index-code-name+
+   #:+futures-code-and-name+
+   #:+options-code-and-name+
    #:+margin-code+
    #:+holiday-division+
    #:+cash-dividend-status-code+
