@@ -114,6 +114,11 @@ backoff when absent/unparseable."
                      status-code attempt *max-retry-after-attempts* wait)
              (sleep wait)))
           (t
+           ;; JPX responses are UTF-8 (Japanese names, EU addresses with
+           ;; umlauts) but Content-Type doesn't declare a charset, so
+           ;; drakma silently falls back to Latin-1 producing mojibake
+           ;; ("Z?rich" instead of "Zürich"). Force the stream's
+           ;; external-format to UTF-8 before yason consumes it.
            (setf (flexi-streams:flexi-stream-external-format body-or-stream)
                  :utf-8)
            (when-let (hash-table (yason:parse body-or-stream))

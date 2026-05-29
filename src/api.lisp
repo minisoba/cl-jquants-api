@@ -1,6 +1,7 @@
 (in-package :cl-jquants-api)
 
 (defun get-listed-issue-master (&key code date)
+  "Listed-issue master records (codes, names, 17/33 sector, market segment, margin class) from JPX /equities/master."
   (create-jquants-instance
    :class    listed-issue-master
    :node     "data"
@@ -16,9 +17,11 @@
               ("Mkt" . market-code)
               ("MktNm" . market-code-name)
               ("Mrgn" . margin-code)
-              ("MrgnNm" . margin-code-name))))
+              ("MrgnNm" . margin-code-name)
+              ("ProdCat" . product-category))))
 
 (defun get-stock-prices (&key code date from to)
+  "Daily OHLCV stock prices (with adjustment factors and morning/afternoon-session breakdowns) from JPX /equities/bars/daily."
   (create-jquants-instance
    :class    stock-prices
    :node     "data"
@@ -42,6 +45,7 @@
               ("AAdjVo" . afternoon-adjustment-volume))))
 
 (defun get-indices-prices (&key code date from to)
+  "Daily OHLC for JPX stock-market indices (TOPIX sub-indices, JPX-Nikkei 400, sector indices, etc.) from /indices/bars/daily."
   (create-jquants-instance
    :class    indices-prices
    :node     "data"
@@ -50,6 +54,7 @@
    :key-map '(("O" . open-price) ("H" . high-price) ("L" . low-price) ("C" . close-price))))
 
 (defun get-index-option-prices (&key code date from to)
+  "Daily Nikkei 225 index option prices (whole-day / night-session / day-session OHLC, settlement, IV, theoretical price) from /derivatives/bars/daily/options/225."
   (create-jquants-instance
    :class    index-option-prices
    :node     "data"
@@ -65,6 +70,7 @@
               ("UnderPx" . underlying-price) ("IV" . implied-volatility) ("IR" . interest-rate))))
 
 (defun get-topix-prices (&key from to)
+  "Daily TOPIX (Tokyo Stock Price Index) OHLC from JPX /indices/bars/daily/topix."
   (create-jquants-instance
    :class    topix-prices
    :node     "data"
@@ -73,6 +79,7 @@
    :key-map '(("O" . open-price) ("H" . high-price) ("L" . low-price) ("C" . close-price))))
 
 (defun get-trading-by-type-of-investors (&key section from to)
+  "Weekly buy / sell / balance values broken down by investor category (proprietary, brokerage, foreigners, trust banks, etc.) from JPX /equities/investor-types."
   (create-jquants-instance
    :class    trading-by-type-of-investors
    :node     "data"
@@ -94,6 +101,7 @@
               ("OthFinSell" . other-financial-institutions-sales) ("OthFinBuy" . other-financial-institutions-purchases) ("OthFinTot" . other-financial-institutions-total) ("OthFinBal" . other-financial-institutions-balance))))
 
 (defun get-margin-trading-outstandings (&key code date from to)
+  "Weekly margin-trading outstandings — long / short balances split across negotiable and standardized margin — from JPX /markets/margin-interest."
   (create-jquants-instance
    :class    margin-trading-outstandings
    :node     "data"
@@ -104,33 +112,100 @@
               ("ShrtStdVol" . short-standardized-margin-trade-volume) ("LongStdVol" . long-standardized-margin-trade-volume)
               ("IssType" . issue-type))))
 
+(defun get-margin-alert (&key code date from to)
+  "Daily margin trading outstandings for issues subject to daily publication (TSE / JSF alert list) from JPX /markets/margin-alert. The PubReason field is exposed as a nested margin-alert-publication-reason instance."
+  (create-jquants-instance
+   :class    margin-alert
+   :node     "data"
+   :endpoint +markets/margin-alert+
+   :params   `((code . ,code) (date . ,date) (from . ,from) (to . ,to))
+   :key-map '(("PubDate"       . published-date)
+              ("AppDate"       . application-date)
+              ("PubReason"     . publication-reason)
+              ("ShrtOut"       . short-margin-outstanding)
+              ("ShrtOutChg"    . short-margin-outstanding-change)
+              ("ShrtOutRatio"  . short-margin-outstanding-ratio)
+              ("LongOut"       . long-margin-outstanding)
+              ("LongOutChg"    . long-margin-outstanding-change)
+              ("LongOutRatio"  . long-margin-outstanding-ratio)
+              ("SLRatio"       . short-long-ratio)
+              ("ShrtNegOut"    . short-negotiable-margin-outstanding)
+              ("ShrtNegOutChg" . short-negotiable-margin-outstanding-change)
+              ("ShrtStdOut"    . short-standardized-margin-outstanding)
+              ("ShrtStdOutChg" . short-standardized-margin-outstanding-change)
+              ("LongNegOut"    . long-negotiable-margin-outstanding)
+              ("LongNegOutChg" . long-negotiable-margin-outstanding-change)
+              ("LongStdOut"    . long-standardized-margin-outstanding)
+              ("LongStdOutChg" . long-standardized-margin-outstanding-change)
+              ("TSEMrgnRegCls" . tse-margin-regulation-classification))))
+
 (defun get-short-sale-value-and-ratio-by-sector (&key sector33 date from to)
+  "Daily short-selling turnover values aggregated by 33-industry sector (with / without price restrictions, and excluding-short turnover) from JPX /markets/short-ratio."
   (create-jquants-instance
    :class    short-sale-value-and-ratio-by-sector
    :node     "data"
    :endpoint +markets/short-ratio+
-   :params   `((sector33 . ,sector33) (date . ,date) (from . ,from) (to . ,to))
+   ;; Wire param is `s33' per the JPX spec; the &key arg name stays
+   ;; `sector33' for back-compat.
+   :params   `((s33 . ,sector33) (date . ,date) (from . ,from) (to . ,to))
    :key-map '(("S33" . sector33-code)
               ("SellExShortVa" . selling-excluding-short-selling-turnover-value)
               ("ShrtWithResVa" . short-selling-with-restrictions-turnover-value)
               ("ShrtNoResVa" . short-selling-without-restrictions-turnover-value))))
 
+(defun get-short-sale-report (&key code disclosed-date calculated-date from to)
+  "Outstanding short selling positions reports (mandatory disclosures of short positions ≥ 0.5% of issued shares) from JPX /markets/short-sale-report. FROM/TO bound the DisclosedDate range."
+  (create-jquants-instance
+   :class    short-sale-report
+   :node     "data"
+   :endpoint +markets/short-sale-report+
+   ;; Wire-level param names match the JPX spec: disc_date / calc_date are
+   ;; the per-endpoint date filters, and from/to map onto disc_date_from /
+   ;; disc_date_to (the spec only exposes a range filter on DisclosedDate).
+   ;; Lisp keyword args stay unchanged for back-compat.
+   :params   `((code . ,code)
+               (disc_date      . ,disclosed-date)
+               (calc_date      . ,calculated-date)
+               (disc_date_from . ,from)
+               (disc_date_to   . ,to))
+   ;; Response keys come back abbreviated (DiscDate / CalcDate, not the
+   ;; spec page's CamelCase). Slot names disc-date / calc-date unchanged.
+   :key-map '(("DiscDate"       . disc-date)
+              ("CalcDate"       . calc-date)
+              ("SSName"         . short-seller-name)
+              ("SSAddr"         . short-seller-address)
+              ("DICName"        . discretionary-investment-contractor-name)
+              ("DICAddr"        . discretionary-investment-contractor-address)
+              ("FundName"       . fund-name)
+              ("ShrtPosToSO"    . short-positions-to-shares-outstanding-ratio)
+              ("ShrtPosShares"  . short-positions-in-shares-number)
+              ("ShrtPosUnits"   . short-positions-in-units-number)
+              ("PrevRptRatio"   . short-positions-in-previous-reporting-ratio)
+              ("PrevRptDate"    . short-positions-in-previous-reporting-date)
+              ("Notes"          . notes))))
+
 (defun get-trading-calendar (&key holidaydivision from to)
+  "TSE / OSE business-day calendar with holiday classifications (and OSE holiday-trading flags) from JPX /markets/calendar."
   (create-jquants-instance
    :class    trading-calendar
    :node     "data"
    :endpoint +markets/calendar+
-   :params   `((holidaydivision . ,holidaydivision) (from . ,from) (to . ,to))
+   ;; Wire param is `hol_div' per the JPX spec; the &key arg name stays
+   ;; `holidaydivision' for back-compat.
+   :params   `((hol_div . ,holidaydivision) (from . ,from) (to . ,to))
    :key-map '(("HolDiv" . holiday-division))))
 
 (defun get-earnings-calendar ()
+  "Upcoming earnings announcement schedule for companies with fiscal-year-end in March or September (JPX /equities/earnings-calendar)."
   (create-jquants-instance
    :class    earnings-calendar
    :node     "data"
    :endpoint +equities/earnings-calendar+
-   :key-map '(("CoName" . company-name) ("FY" . fiscal-year) ("SectorNm" . sector-name) ("FQ" . fiscal-quarter))))
+   :key-map '(("CoName" . company-name) ("FY" . fiscal-year) ("SectorNm" . sector-name)
+              ("FQ" . fiscal-quarter) ("Section" . section))))
 
 (defun get-financial-data (&key code date)
+  "Quarterly earnings summary + dividend forecast revisions (Shikiho-style numeric data, JGAAP/IFRS) from JPX /fins/summary."
   (create-jquants-instance
    :class    financial-data
    :node     "data"
@@ -195,6 +270,7 @@
               ("NxFNCEPS" . next-year-forecast-non-consolidated-earnings-per-share))))
 
 (defun get-breakdown-trading-data (&key code date from to)
+  "Daily breakdown of trading value/volume by long/short and margin-new/margin-close from JPX /markets/breakdown."
   (create-jquants-instance
    :class    breakdown-trading-data
    :node     "data"
@@ -208,6 +284,7 @@
               ("LongBuyVo" . long-buy-volume) ("MrgnBuyNewVo" . margin-buy-new-volume) ("MrgnBuyCloseVo" . margin-buy-close-volume))))
 
 (defun get-morning-session-stock-prices (&key code)
+  "Morning-session-only OHLCV per issue, published mid-day, from JPX /equities/bars/daily/am."
   (create-jquants-instance
    :class    morning-session-stock-prices
    :node     "data"
@@ -217,6 +294,7 @@
               ("MVo" . morning-volume) ("MVa" . morning-turnover-value))))
 
 (defun get-cash-dividend-data (&key code date from to)
+  "Cash dividend forecasts and results — record / ex-rights / payment dates and per-share amounts — from JPX /fins/dividend."
   (create-jquants-instance
    :class    cash-dividend-data
    :node     "data"
@@ -235,6 +313,7 @@
               ("SpecDivRate" . special-dividend-rate))))
 
 (defun get-financial-statement-data (&key code date)
+  "Full quarterly financial statements (BS / PL / CF) with EDINET XBRL verbose labels as keys, from JPX /fins/details."
   (create-jquants-instance
    :class    financial-statement-data
    :node     "data"
@@ -245,11 +324,13 @@
               ("DiscNo" . disclosure-number) ("DocType" . type-of-document) ("FS" . financial-statement))))
 
 (defun get-futures-data (&key category date contract-flag)
+  "Daily futures OHLC + settlement / open-interest / contract month (TOPIXF, NK225F, JGBLF, JN400F, …) from JPX /derivatives/bars/daily/futures."
   (create-jquants-instance
    :class    futures-data
    :node     "data"
    :endpoint +derivatives/bars/daily/futures+
-   :params   `((category . ,category) (date . ,date) (contract-flag . ,contract-flag))
+   ;; Wire param is `contract_flag' per the JPX spec; &key arg unchanged.
+   :params   `((category . ,category) (date . ,date) (contract_flag . ,contract-flag))
    :key-map '(("ProdCat" . derivatives-product-category)
               ("O" . whole-day-open) ("H" . whole-day-high) ("L" . whole-day-low) ("C" . whole-day-close)
               ("MO" . morning-session-open) ("MH" . morning-session-high) ("ML" . morning-session-low) ("MC" . morning-session-close)
@@ -261,11 +342,13 @@
               ("CCMFlag" . central-contract-month-flag))))
 
 (defun get-options-data (&key category date contract-flag)
+  "Daily options OHLC + settlement / theoretical / IV / underlying-price for TOPIX, NK225, JGB futures options, and securities options, from JPX /derivatives/bars/daily/options."
   (create-jquants-instance
    :class    options-data
    :node     "data"
    :endpoint +derivatives/bars/daily/options+
-   :params   `((category . ,category) (date . ,date) (contract-flag . ,contract-flag))
+   ;; Wire param is `contract_flag' per the JPX spec; &key arg unchanged.
+   :params   `((category . ,category) (date . ,date) (contract_flag . ,contract-flag))
    :key-map '(("ProdCat" . derivatives-product-category) ("UndSSO" . underlying-sso)
               ("O" . whole-day-open) ("H" . whole-day-high) ("L" . whole-day-low) ("C" . whole-day-close)
               ("MO" . morning-session-open) ("MH" . morning-session-high) ("ML" . morning-session-low) ("MC" . morning-session-close)

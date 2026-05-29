@@ -20,6 +20,7 @@
       (is (eq (sector33-code-of obj) (make-keyword "7200")))
       (is (eq (market-code-of obj) (make-keyword "0111")))
       (is (= (margin-code-of obj) 1))
+      (is (string= (product-category-of obj) "011"))
       (cond ((eq cl-jquants-api:*locale* :jp)
              (is (string= (company-name-of obj) "日本取引所グループ"))
              (is (string= (sector17-code-name-of obj) "金融（除く銀行）"))
@@ -231,6 +232,43 @@
       (is (= (long-standardized-margin-trade-volume-of obj) 20000.0d0))
       (is (= (issue-type-of obj) 2)))))
 
+(test get-margin-alert
+  (with-fixture mock-api ()
+    (let* ((all-data (get-margin-alert :date 20240208))
+           (obj      (car all-data))
+           (reason   (publication-reason-of obj)))
+      (is (string= (code-of obj) "13260"))
+      (is (= (published-date-of obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2024-02-08"))))
+      (is (= (application-date-of obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2024-02-07"))))
+      (is (= (short-margin-outstanding-of obj)              11.0d0))
+      (is (= (short-margin-outstanding-change-of obj)        0.0d0))
+      (is (string= (short-margin-outstanding-ratio-of obj) "*"))
+      (is (= (long-margin-outstanding-of obj)              676.0d0))
+      (is (= (long-margin-outstanding-change-of obj)       -20.0d0))
+      (is (string= (long-margin-outstanding-ratio-of obj) "*"))
+      (is (= (short-long-ratio-of obj)                       1.6d0))
+      (is (= (short-negotiable-margin-outstanding-of obj)            0.0d0))
+      (is (= (short-negotiable-margin-outstanding-change-of obj)     0.0d0))
+      (is (= (short-standardized-margin-outstanding-of obj)         11.0d0))
+      (is (= (short-standardized-margin-outstanding-change-of obj)   0.0d0))
+      (is (= (long-negotiable-margin-outstanding-of obj)           192.0d0))
+      (is (= (long-negotiable-margin-outstanding-change-of obj)    -20.0d0))
+      (is (= (long-standardized-margin-outstanding-of obj)         484.0d0))
+      (is (= (long-standardized-margin-outstanding-change-of obj)    0.0d0))
+      (is (string= (tse-margin-regulation-classification-of obj) "001"))
+      ;; Nested PubReason — typed accessors on the sub-instance.
+      (is (typep reason 'margin-alert-publication-reason))
+      (is (string= (restricted-of reason)                     "0"))
+      (is (string= (daily-publication-of reason)              "0"))
+      (is (string= (monitoring-of reason)                     "0"))
+      (is (string= (restricted-by-jsf-of reason)              "0"))
+      (is (string= (precaution-by-jsf-of reason)              "1"))
+      (is (string= (unclear-or-securities-on-alert-of reason) "0")))))
+
 (test get-short-sale-value-and-ratio-by-sector
   (with-fixture mock-api ()
     (let* ((all-data (get-short-sale-value-and-ratio-by-sector :date 20221025))
@@ -242,6 +280,35 @@
       (is (= (selling-excluding-short-selling-turnover-value-of obj) 1333126400.0d0))
       (is (= (short-selling-with-restrictions-turnover-value-of obj) 787355200.0d0))
       (is (= (short-selling-without-restrictions-turnover-value-of obj) 149084300.0d0)))))
+
+(test get-short-sale-report
+  (with-fixture mock-api ()
+    (let* ((all-data (get-short-sale-report :code 1301 :from 20240801))
+           (obj (car all-data)))
+      (is (= (disc-date-of obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2024-08-01"))))
+      (is (= (calc-date-of obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2024-07-31"))))
+      (is (string= (code-of obj) "13010"))
+      (is (string= (short-seller-name-of obj) "Goldman Sachs International"))
+      (is (string= (short-seller-address-of obj)
+                   "Plumtree Court, 25 Shoe Lane, London EC4A 4AU"))
+      (is (string= (discretionary-investment-contractor-name-of obj)
+                   "Goldman Sachs Asset Management International"))
+      (is (string= (discretionary-investment-contractor-address-of obj)
+                   "Plumtree Court, 25 Shoe Lane, London EC4A 4AU"))
+      (is (string= (fund-name-of obj) "GS Global Equity Long/Short Fund"))
+      (is (= (short-positions-to-shares-outstanding-ratio-of obj) 0.0052d0))
+      (is (= (short-positions-in-shares-number-of obj) 1543200.0d0))
+      (is (= (short-positions-in-units-number-of obj) 0.0d0))
+      (is (= (short-positions-in-previous-reporting-ratio-of obj) 0.0048d0))
+      (is (= (short-positions-in-previous-reporting-date-of obj)
+             (local-time:timestamp-to-unix
+              (local-time:parse-timestring "2024-07-24"))))
+      ;; Empty strings in JSON become NIL after make-jquants-instance-from-hash-table.
+      (is (null (notes-of obj))))))
 
 (test get-trading-calendar
   (with-fixture mock-api ()
