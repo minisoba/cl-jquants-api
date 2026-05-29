@@ -4,6 +4,7 @@
     :description "JPX J-Quants API for Common Lisp"
     :serial t
     :depends-on (:alexandria
+                 :bordeaux-threads
                  :cl+ssl
                  :cl-change-case
                  :closer-mop
