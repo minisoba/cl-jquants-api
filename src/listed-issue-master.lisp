@@ -13,7 +13,8 @@
    (market-code :accessor market-code-of :initform nil)
    (market-code-name :accessor market-code-name-of :initform nil)
    (margin-code :accessor margin-code-of :initform nil)
-   (margin-code-name :accessor margin-code-name-of :initform nil)))
+   (margin-code-name :accessor margin-code-name-of :initform nil)
+   (product-category :accessor product-category-of :initform nil)))
 
 (defmethod complete-object-update :after ((obj listed-issue-master))
   (setf (sector17-code-of obj) (make-keyword (sector17-code-of obj)))

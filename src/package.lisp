@@ -57,6 +57,10 @@
    #:margin-trading-outstandings
    #:get-margin-trading-outstandings
 
+   #:margin-alert
+   #:margin-alert-publication-reason
+   #:get-margin-alert
+
    #:morning-session-stock-prices
    #:get-morning-session-stock-prices
 
@@ -65,6 +69,9 @@
 
    #:short-sale-value-and-ratio-by-sector
    #:get-short-sale-value-and-ratio-by-sector
+
+   #:short-sale-report
+   #:get-short-sale-report
 
    #:stock-prices
    #:get-stock-prices
@@ -344,6 +351,7 @@
    #:market-code-name-of
    #:margin-code-of
    #:margin-code-name-of
+   #:product-category-of
    #:short-margin-trade-volume-of
    #:long-margin-trade-volume-of
    #:short-negotiable-margin-trade-volume-of
@@ -449,4 +457,46 @@
    #:other-financial-institutions-purchases-of
    #:other-financial-institutions-total-of
    #:other-financial-institutions-balance-of
-   #:holiday-division-of))
+   #:holiday-division-of
+
+   #:disc-date-of
+   #:calc-date-of
+   #:short-seller-name-of
+   #:short-seller-address-of
+   #:discretionary-investment-contractor-name-of
+   #:discretionary-investment-contractor-address-of
+   #:fund-name-of
+   #:short-positions-to-shares-outstanding-ratio-of
+   #:short-positions-in-shares-number-of
+   #:short-positions-in-units-number-of
+   #:short-positions-in-previous-reporting-ratio-of
+   #:short-positions-in-previous-reporting-date-of
+   #:notes-of
+
+   #:published-date-of
+   #:application-date-of
+   #:publication-reason-of
+   #:publication-reason-raw-of
+   #:short-margin-outstanding-of
+   #:short-margin-outstanding-change-of
+   #:short-margin-outstanding-ratio-of
+   #:long-margin-outstanding-of
+   #:long-margin-outstanding-change-of
+   #:long-margin-outstanding-ratio-of
+   #:short-long-ratio-of
+   #:short-negotiable-margin-outstanding-of
+   #:short-negotiable-margin-outstanding-change-of
+   #:short-standardized-margin-outstanding-of
+   #:short-standardized-margin-outstanding-change-of
+   #:long-negotiable-margin-outstanding-of
+   #:long-negotiable-margin-outstanding-change-of
+   #:long-standardized-margin-outstanding-of
+   #:long-standardized-margin-outstanding-change-of
+   #:tse-margin-regulation-classification-of
+
+   #:restricted-of
+   #:daily-publication-of
+   #:monitoring-of
+   #:restricted-by-jsf-of
+   #:precaution-by-jsf-of
+   #:unclear-or-securities-on-alert-of))

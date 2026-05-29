@@ -1,0 +1,33 @@
+{
+    "data": [
+        {
+            "PubDate": "2024-02-08",
+            "Code": "13260",
+            "AppDate": "2024-02-07",
+            "PubReason": {
+                "Restricted": "0",
+                "DailyPublication": "0",
+                "Monitoring": "0",
+                "RestrictedByJSF": "0",
+                "PrecautionByJSF": "1",
+                "UnclearOrSecOnAlert": "0"
+            },
+            "ShrtOut": 11.0,
+            "ShrtOutChg": 0.0,
+            "ShrtOutRatio": "*",
+            "LongOut": 676.0,
+            "LongOutChg": -20.0,
+            "LongOutRatio": "*",
+            "SLRatio": 1.6,
+            "ShrtNegOut": 0.0,
+            "ShrtNegOutChg": 0.0,
+            "ShrtStdOut": 11.0,
+            "ShrtStdOutChg": 0.0,
+            "LongNegOut": 192.0,
+            "LongNegOutChg": -20.0,
+            "LongStdOut": 484.0,
+            "LongStdOutChg": 0.0,
+            "TSEMrgnRegCls": "001"
+        }
+    ]
+}

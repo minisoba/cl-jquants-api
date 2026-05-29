@@ -24,24 +24,33 @@
                          &key (content nil) (stream *standard-output*) (timeout 20))
   (let* ((url (format nil "~a/~a" +end-point-base+ endpoint))
          (headers (%build-headers)))
-    (multiple-value-bind (body-or-stream status-code _headers _uri _stream _must-close reason-phrase)
+    ;; JPX's responses contain UTF-8 (Japanese names, EU addresses with
+    ;; umlauts, etc.) but the HTTP response Content-Type doesn't declare a
+    ;; charset, so drakma silently falls back to Latin-1. Request raw
+    ;; octets via :force-binary and decode UTF-8 ourselves before handing
+    ;; the body to yason — the previous setf-external-format trick was a
+    ;; no-op against drakma's already-bound stream and produced mojibake
+    ;; like "Z?rich".
+    (multiple-value-bind (octets status-code _headers _uri _stream _must-close reason-phrase)
         (if (eq method :get)
             (drakma:http-request
-             url :method :get :additional-headers headers :connection-timeout timeout :want-stream t)
+             url :method :get :additional-headers headers
+                 :connection-timeout timeout :force-binary t)
             (drakma:http-request
-             url :method :post :additional-headers headers :content-type "application/json"
-                 :connection-timeout timeout :content content :want-stream t))
+             url :method :post :additional-headers headers
+                 :content-type "application/json"
+                 :connection-timeout timeout :content content :force-binary t))
       (declare (ignore _headers _uri _stream _must-close))
       (format stream "Sending HTTP request: ~a~%" url)
-      (setf (flexi-streams:flexi-stream-external-format body-or-stream) :utf-8)
-      (when-let (hash-table (yason:parse body-or-stream))
-        (cond ((= status-code 200)
-               hash-table)
-              (t
-               (error 'http-request-error 
-                      :status status-code
-                      :reason reason-phrase
-                      :text   (gethash "message" hash-table))))))))
+      (let ((body (flexi-streams:octets-to-string octets :external-format :utf-8)))
+        (when-let (hash-table (yason:parse body))
+          (cond ((= status-code 200)
+                 hash-table)
+                (t
+                 (error 'http-request-error
+                        :status status-code
+                        :reason reason-phrase
+                        :text   (gethash "message" hash-table)))))))))
 
 (defun perform-http-request (url &key (method :get) content (stream nil))
   (send-request cl-jquants-api::*http-handler* url method :content content :stream (or stream *standard-output*)))

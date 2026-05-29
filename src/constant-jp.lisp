@@ -197,8 +197,8 @@
       (:EURJPYF  . "ユーロ/日本円先物")))
 
   (defparameter +options-code-and-name+
-    '((:TOPIXE    . "TOPIXオプション")
-      (:NK225E    . "日経225オプション")
+    '((:TOPIXE   . "TOPIXオプション")
+      (:NK225E   . "日経225オプション")
       (:JGBLFE   . "長期国債先物オプション")
       (:EQOP     . "有価証券オプション")
       (:NK225MWE . "日経225miniオプション")))

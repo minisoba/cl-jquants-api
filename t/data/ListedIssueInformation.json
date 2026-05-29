@@ -13,7 +13,8 @@
             "Mkt": "0111",
             "MktNm": "プライム",
             "Mrgn": "1",
-            "MrgnNm": "信用"
+            "MrgnNm": "信用",
+            "ProdCat": "011"
         }
     ]
 }

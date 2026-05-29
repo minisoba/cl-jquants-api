@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "DiscDate": "2024-08-01",
+            "CalcDate": "2024-07-31",
+            "Code": "13010",
+            "SSName": "Goldman Sachs International",
+            "SSAddr": "Plumtree Court, 25 Shoe Lane, London EC4A 4AU",
+            "DICName": "Goldman Sachs Asset Management International",
+            "DICAddr": "Plumtree Court, 25 Shoe Lane, London EC4A 4AU",
+            "FundName": "GS Global Equity Long/Short Fund",
+            "ShrtPosToSO": 0.0052,
+            "ShrtPosShares": 1543200.0,
+            "ShrtPosUnits": 0.0,
+            "PrevRptRatio": 0.0048,
+            "PrevRptDate": "2024-07-24",
+            "Notes": ""
+        }
+    ]
+}
