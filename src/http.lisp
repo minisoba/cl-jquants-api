@@ -89,16 +89,28 @@ backoff when absent/unparseable."
          (attempt 0))
     (loop
       (%throttle)
-      (multiple-value-bind (body-or-stream status-code resp-headers
+      ;; :force-binary t — drakma returns raw octets, closes its socket
+      ;; immediately, and reuses keep-alive pool connections. The earlier
+      ;; :want-stream t variant leaked one FD per request (caller never
+      ;; closed the returned stream); merge f66745f accidentally
+      ;; reintroduced the leak from the http-rate-limit branch (PR #18)
+      ;; on top of the master-side fix from commit 6a90df6. Manifested as
+      ;; EMFILE after ~1024 requests on long Dagster backfills.
+      ;;
+      ;; JPX responses are UTF-8 (Japanese names, EU addresses with
+      ;; umlauts) but Content-Type omits charset, so drakma's default
+      ;; text decoding silently falls back to Latin-1 → mojibake. Decode
+      ;; the octets ourselves with the right external-format below.
+      (multiple-value-bind (octets status-code resp-headers
                             _uri _stream _must-close reason-phrase)
           (if (eq method :get)
               (drakma:http-request
                url :method :get :additional-headers headers
-                   :connection-timeout timeout :want-stream t)
+                   :connection-timeout timeout :force-binary t)
               (drakma:http-request
                url :method :post :additional-headers headers
                    :content-type "application/json"
-                   :connection-timeout timeout :content content :want-stream t))
+                   :connection-timeout timeout :content content :force-binary t))
         (declare (ignore _uri _stream _must-close))
         (format stream "Sending HTTP request: ~a~%" url)
         (cond
@@ -108,26 +120,21 @@ backoff when absent/unparseable."
                 (< attempt *max-retry-after-attempts*))
            (incf attempt)
            (let ((wait (or (%retry-after-seconds resp-headers) (* 2 attempt))))
-             (ignore-errors (close body-or-stream))
              (format stream
                      "jquants: HTTP ~a; retry ~a/~a after ~as~%"
                      status-code attempt *max-retry-after-attempts* wait)
              (sleep wait)))
           (t
-           ;; JPX responses are UTF-8 (Japanese names, EU addresses with
-           ;; umlauts) but Content-Type doesn't declare a charset, so
-           ;; drakma silently falls back to Latin-1 producing mojibake
-           ;; ("Z?rich" instead of "Zürich"). Force the stream's
-           ;; external-format to UTF-8 before yason consumes it.
-           (setf (flexi-streams:flexi-stream-external-format body-or-stream)
-                 :utf-8)
-           (when-let (hash-table (yason:parse body-or-stream))
-             (return
-               (cond ((= status-code 200) hash-table)
-                     (t (error 'http-request-error
-                               :status status-code
-                               :reason reason-phrase
-                               :text (gethash "message" hash-table))))))
+           (let ((body (when octets
+                         (flexi-streams:octets-to-string
+                          octets :external-format :utf-8))))
+             (when-let (hash-table (and body (yason:parse body)))
+               (return
+                 (cond ((= status-code 200) hash-table)
+                       (t (error 'http-request-error
+                                 :status status-code
+                                 :reason reason-phrase
+                                 :text (gethash "message" hash-table)))))))
            ;; empty body on a non-200 (or 200 with no JSON): nothing
            ;; to return -> NIL, same as the original behaviour.
            (return nil)))))))
